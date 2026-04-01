@@ -6,7 +6,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: otel-collector
-  namespace: opentelemetry-collector
+  namespace: opentelemetry
 spec:
   interval: 1h
   chart:
@@ -19,6 +19,7 @@ spec:
   values:
     # Deployment mode is sufficient for a single
     # collector instance in a test environment.
+    fullnameOverride: otel-collector
     mode: deployment
     replicaCount: 1
     # Use the contrib image to get exporters like
