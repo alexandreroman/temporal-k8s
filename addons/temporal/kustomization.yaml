@@ -5,3 +5,5 @@ resources:
   - helmrepository.yaml
   - cluster-postgresql.yaml
   - helmrelease.yaml
+  - grpcroute.yaml
+  - httproute.yaml

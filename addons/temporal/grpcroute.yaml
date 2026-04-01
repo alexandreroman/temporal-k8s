@@ -1,0 +1,20 @@
+# GRPCRoute using Kubernetes Gateway API to
+# expose the Temporal Frontend gRPC service
+# via Traefik on the same hostname as the
+# Web UI. Workers and CLI tools can connect
+# to temporal.${base_domain}:80 using h2c.
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: temporal-frontend
+  namespace: temporal
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: traefik
+  hostnames:
+    - "temporal.${base_domain}"
+  rules:
+    - backendRefs:
+        - name: temporal-frontend
+          port: 7233
