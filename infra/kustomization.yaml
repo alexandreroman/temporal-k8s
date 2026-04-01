@@ -4,5 +4,6 @@ resources:
   - cert-manager
   - cloudnative-pg
   - gateway-api
+  - opentelemetry-operator
   - prometheus
   - traefik

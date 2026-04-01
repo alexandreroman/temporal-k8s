@@ -38,3 +38,7 @@ spec:
         enabled: false
       # Short retention for local dev.
       retention: "3d"
+      # Accept metrics pushed by the OpenTelemetry
+      # Collector via the remote write protocol.
+      extraFlags:
+        - web.enable-remote-write-receiver
