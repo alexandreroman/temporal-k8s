@@ -62,6 +62,34 @@ curl http://hello.127-0-0-1.nip.io
 
 You should see `Hello from Kubernetes!`.
 
+## Accessing Temporal
+
+Once the cluster is up and Flux has reconciled all
+resources, Temporal is available through Traefik.
+
+**Web UI** — browse workflows, schedules, and
+namespaces:
+
+```text
+http://temporal.127-0-0-1.nip.io
+```
+
+**gRPC frontend** — connect workers and the
+Temporal CLI (`temporal`/`tctl`) on port 80 using
+the `temporal-api` hostname:
+
+```sh
+temporal workflow list \
+  --address temporal-api.127-0-0-1.nip.io:80
+```
+
+> [!NOTE]
+> The gRPC frontend is exposed over h2c (HTTP/2
+> cleartext) through Traefik on port 80 — no TLS
+> configuration is required.
+
+## Tear down
+
 To tear down the cluster:
 
 ```sh
