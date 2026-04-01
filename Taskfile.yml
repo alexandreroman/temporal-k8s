@@ -1,0 +1,18 @@
+version: "3"
+
+vars:
+  CLUSTER_NAME: temporal
+
+tasks:
+  reconcile:
+    desc: Trigger a full Flux CD reconciliation
+    cmds:
+      - >-
+        flux reconcile source git temporal-k8s
+        --context kind-{{.CLUSTER_NAME}}
+      - >-
+        flux reconcile kustomization addons
+        --context kind-{{.CLUSTER_NAME}}
+      - >-
+        flux reconcile kustomization apps
+        --context kind-{{.CLUSTER_NAME}}

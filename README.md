@@ -30,6 +30,8 @@ environment.
 - [Podman](https://podman.io/)
 - [Kind](https://kind.sigs.k8s.io/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Flux CD CLI](https://fluxcd.io/flux/cmd/)
+  (`brew install fluxcd/tap/flux`)
 - [Task](https://taskfile.dev/)
 
 ## Quick start
@@ -47,6 +49,12 @@ This will:
 3. Wait for the cluster nodes to be ready
 4. Install Flux CD into the cluster
 
+To trigger a full Flux CD reconciliation manually:
+
+```sh
+task reconcile
+```
+
 To tear down the cluster:
 
 ```sh
@@ -55,7 +63,7 @@ task -d bootstrap/kind-podman delete
 
 ## Project structure
 
-```
+```text
 bootstrap/
   kind-podman/    # Kind cluster + Flux bootstrap
 addons/
