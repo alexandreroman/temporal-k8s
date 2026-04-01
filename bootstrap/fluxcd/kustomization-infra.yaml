@@ -14,3 +14,14 @@ spec:
   path: ./infra
   prune: true
   timeout: 5m
+  # Wait for the CloudNativePG operator to be
+  # fully ready (including its webhook) before
+  # marking infra as Ready. Without this,
+  # dependent kustomizations (addons) may fail
+  # on dry-run because the CNPG validating/
+  # mutating webhook is not yet serving.
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: cloudnative-pg
+      namespace: cloudnative-pg
