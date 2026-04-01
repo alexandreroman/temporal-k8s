@@ -34,7 +34,11 @@ spec:
     # other namespaces can reference it.
     gateway:
       enabled: true
-      namespacePolicy: All
+      listeners:
+        web:
+          # Allow HTTPRoutes from all namespaces,
+          # not just the traefik namespace.
+          namespacePolicy: All
     gatewayClass:
       enabled: true
     # Disable sending anonymous usage data.
