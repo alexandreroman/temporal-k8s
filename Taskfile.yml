@@ -4,7 +4,12 @@ vars:
   CLUSTER_NAME: temporal
 
 includes:
-  kind: ./bootstrap/kind
+  kind:
+    taskfile: ./bootstrap/kind
+    # Run kind tasks from their own directory so
+    # relative paths (e.g. kind-config.yaml) resolve
+    # correctly.
+    dir: ./bootstrap/kind
 
 tasks:
   create:
