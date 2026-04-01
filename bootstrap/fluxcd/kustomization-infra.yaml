@@ -44,5 +44,5 @@ spec:
     # are applied.
     - apiVersion: apps/v1
       kind: Deployment
-      name: temporal-worker-controller
+      name: temporal-worker-controller-manager
       namespace: temporal-worker-controller
