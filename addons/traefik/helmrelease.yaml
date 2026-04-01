@@ -24,4 +24,5 @@ spec:
       websecure:
         nodePort: 30443
     # Disable sending anonymous usage data.
-    globalArguments: []
+    global:
+      sendAnonymousUsage: false
