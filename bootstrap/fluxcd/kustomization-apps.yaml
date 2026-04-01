@@ -18,3 +18,9 @@ spec:
   path: ./apps
   prune: true
   timeout: 5m
+  # Inject shared variables (e.g. base_domain)
+  # into app manifests at deploy time.
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config

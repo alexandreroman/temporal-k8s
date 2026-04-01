@@ -12,6 +12,8 @@ spec:
     # Traefik in its own namespace.
     - name: traefik-gateway
       namespace: traefik
+  hostnames:
+    - "hello.${base_domain}"
   rules:
     - matches:
         - path:

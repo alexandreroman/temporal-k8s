@@ -1,0 +1,12 @@
+# Shared configuration for Flux CD variable
+# substitution. Referenced by Kustomizations
+# via postBuild.substituteFrom.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-config
+  namespace: flux-system
+data:
+  # Base domain used to build app hostnames.
+  # Example: hello.127-0-0-1.nip.io
+  base_domain: 127-0-0-1.nip.io
