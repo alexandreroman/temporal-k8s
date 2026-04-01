@@ -1,0 +1,41 @@
+# Grafana deployment for local dev, pre-configured
+# with Prometheus as the default datasource.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: grafana
+      version: "11.*"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-community
+  values:
+    # No persistent storage for test/dev.
+    persistence:
+      enabled: false
+    # Disable authentication for convenience
+    # in a local dev environment.
+    grafana.ini:
+      auth.anonymous:
+        enabled: true
+        org_role: Admin
+      auth:
+        disable_login_form: true
+    # Pre-provision Prometheus as the default
+    # datasource so Grafana is ready to use
+    # immediately after deployment.
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: >-
+              http://prometheus-server.prometheus:80
+            access: proxy
+            isDefault: true
