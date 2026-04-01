@@ -23,6 +23,20 @@ spec:
         nodePort: 30080
       websecure:
         nodePort: 30443
+    # Enable Kubernetes Gateway API provider
+    # so HTTPRoute resources are processed
+    # instead of Traefik-specific IngressRoute.
+    providers:
+      kubernetesGateway:
+        enabled: true
+    # Deploy a default Gateway that accepts
+    # routes from any namespace, so apps in
+    # other namespaces can reference it.
+    gateway:
+      enabled: true
+      namespacePolicy: All
+    gatewayClass:
+      enabled: true
     # Disable sending anonymous usage data.
     global:
       sendAnonymousUsage: false

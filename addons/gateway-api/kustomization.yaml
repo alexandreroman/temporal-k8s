@@ -1,0 +1,7 @@
+# Install the standard Gateway API CRDs.
+# Required before any Gateway or HTTPRoute
+# resource can be created.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.1

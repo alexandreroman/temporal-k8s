@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - gitrepository.yaml
   - kustomization-addons.yaml
+  - kustomization-apps.yaml
