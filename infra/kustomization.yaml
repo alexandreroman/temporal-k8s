@@ -5,6 +5,6 @@ resources:
   - cloudnative-pg
   - gateway-api
   - kube-prometheus-stack
+  - keda
   - opentelemetry-collector
-  - prometheus-adapter
   - traefik
