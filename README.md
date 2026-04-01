@@ -20,12 +20,13 @@ environment.
 - [Flux CD](https://fluxcd.io/) — GitOps-based
   deployment
 - [Kind](https://kind.sigs.k8s.io/) — local
-  Kubernetes cluster (using Podman)
+  Kubernetes cluster
 - [Task](https://taskfile.dev/) — task runner
 
 ## Prerequisites
 
-- [Podman](https://podman.io/)
+- [Docker](https://www.docker.com/) or
+  [Podman](https://podman.io/)
 - [Kind](https://kind.sigs.k8s.io/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Flux CD CLI](https://fluxcd.io/flux/cmd/)
@@ -37,7 +38,7 @@ environment.
 Bootstrap a local cluster with Flux CD:
 
 ```sh
-task -d bootstrap/kind-podman
+task -d bootstrap/kind
 ```
 
 This will:
@@ -123,14 +124,14 @@ remote write. Reachable inside the cluster at:
 To tear down the cluster:
 
 ```sh
-task -d bootstrap/kind-podman delete
+task -d bootstrap/kind delete
 ```
 
 ## Project structure
 
 ```text
 bootstrap/
-  kind-podman/      # Kind cluster + Flux bootstrap
+  kind/             # Kind cluster + Flux bootstrap
 infra/
   cert-manager/     # TLS certificate management
   cloudnative-pg/   # PostgreSQL operator

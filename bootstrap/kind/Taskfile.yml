@@ -4,9 +4,22 @@ vars:
   CLUSTER_NAME: temporal
   KIND_CONFIG: kind-config.yaml
   FLUX_VERSION: "2.8.3"
+  # Auto-detect container runtime:
+  # prefer Docker, fall back to Podman.
+  PROVIDER:
+    sh: >-
+      if docker info >/dev/null 2>&1; then
+        echo docker;
+      elif podman info >/dev/null 2>&1; then
+        echo podman;
+      else
+        echo none;
+      fi
 
 env:
-  KIND_EXPERIMENTAL_PROVIDER: podman
+  # Kind uses Docker by default; the env var is
+  # only needed when Podman is the provider.
+  KIND_EXPERIMENTAL_PROVIDER: "{{.PROVIDER}}"
 
 tasks:
   default:
@@ -22,13 +35,18 @@ tasks:
   preflight:
     desc: Verify required tools are installed
     silent: true
+    preconditions:
+      - sh: test "{{.PROVIDER}}" != "none"
+        msg: >-
+          No container runtime found.
+          Install Docker or Podman first.
+      - sh: command -v kind >/dev/null
+        msg: "kind is not installed."
     cmds:
-      - command -v kind >/dev/null
-      - command -v podman >/dev/null
-      - podman info >/dev/null 2>&1
+      - echo "Using container runtime {{.PROVIDER}}"
 
   cluster-create:
-    desc: Create the kind cluster on Podman
+    desc: Create the kind cluster
     status:
       - kind get clusters | grep -q "^{{.CLUSTER_NAME}}$"
     cmds:
