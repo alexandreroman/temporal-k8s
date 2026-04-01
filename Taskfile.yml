@@ -11,9 +11,6 @@ tasks:
         flux reconcile source git temporal-k8s
         --context kind-{{.CLUSTER_NAME}}
       - >-
-        flux reconcile kustomization flux-system
-        --context kind-{{.CLUSTER_NAME}}
-      - >-
         flux reconcile kustomization infra
         --context kind-{{.CLUSTER_NAME}}
       - >-
