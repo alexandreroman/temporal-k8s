@@ -37,7 +37,7 @@ environment.
 Bootstrap a local cluster with Flux CD:
 
 ```sh
-task -d bootstrap/kind-postman
+task -d bootstrap/kind-podman
 ```
 
 This will:
@@ -50,14 +50,14 @@ This will:
 To tear down the cluster:
 
 ```sh
-task -d bootstrap/kind-postman delete
+task -d bootstrap/kind-podman delete
 ```
 
 ## Project structure
 
 ```
 bootstrap/
-  kind-postman/    # Kind cluster + Flux bootstrap
+  kind-podman/    # Kind cluster + Flux bootstrap
 addons/
   certmanager/     # TLS certificate management
   temporal/        # Temporal server manifests
