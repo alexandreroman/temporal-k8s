@@ -114,9 +114,9 @@ http://prometheus.127-0-0-1.nip.io
 telemetry and pushes metrics to Prometheus via
 remote write. Reachable inside the cluster at:
 
-- `otel-collector.opentelemetry-collector:4317`
+- `otel-collector-opentelemetry-collector.opentelemetry-collector:4317`
   (gRPC)
-- `otel-collector.opentelemetry-collector:4318`
+- `otel-collector-opentelemetry-collector.opentelemetry-collector:4318`
   (HTTP)
 
 ## Tear down
@@ -137,12 +137,12 @@ infra/
   cloudnative-pg/   # PostgreSQL operator
   gateway-api/      # Gateway API CRDs
   grafana/          # Dashboards & visualization
-  opentelemetry-operator/  # OTel Operator
+  opentelemetry-collector/ # OTel Collector
   prometheus/       # Metrics collection
   traefik/          # Ingress controller
-addons/
-  opentelemetry-collector/ # OTel Collector (CR)
-  temporal/         # Temporal server + database
+temporal/
+  server/           # Temporal server + database
+  worker-controller/ # Temporal Worker Controller
 apps/
   hello/            # Sample app for smoke testing
 ```

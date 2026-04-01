@@ -23,7 +23,7 @@ spec:
   # Wait for the CloudNativePG operator to be
   # fully ready (including its webhook) before
   # marking infra as Ready. Without this,
-  # dependent kustomizations (addons) may fail
+  # dependent kustomizations (apps) may fail
   # on dry-run because the CNPG validating/
   # mutating webhook is not yet serving.
   healthChecks:
@@ -31,18 +31,3 @@ spec:
       kind: Deployment
       name: cloudnative-pg
       namespace: cloudnative-pg
-    # Addons deploy an OpenTelemetryCollector CR
-    # which requires the operator webhook to be
-    # serving, otherwise dry-run validation fails.
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: opentelemetry-operator
-      namespace: opentelemetry-operator
-    # Temporal Worker Controller manages
-    # TemporalWorkerDeployment CRs in addons.
-    # Its webhook must be serving before addons
-    # are applied.
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: temporal-worker-controller-manager
-      namespace: temporal-worker-controller

@@ -5,7 +5,6 @@ resources:
   - cloudnative-pg
   - gateway-api
   - grafana
-  - opentelemetry-operator
+  - opentelemetry-collector
   - prometheus
-  - temporal-worker-controller
   - traefik

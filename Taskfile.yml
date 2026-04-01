@@ -18,7 +18,7 @@ tasks:
         --timeout 10m
         --context kind-{{.CLUSTER_NAME}}
       - >-
-        flux reconcile kustomization addons
+        flux reconcile kustomization temporal
         --timeout 10m
         --context kind-{{.CLUSTER_NAME}}
       - >-

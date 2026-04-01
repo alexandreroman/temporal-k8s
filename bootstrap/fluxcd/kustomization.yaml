@@ -4,5 +4,5 @@ resources:
   - cluster-config.yaml
   - gitrepository.yaml
   - kustomization-infra.yaml
-  - kustomization-addons.yaml
+  - kustomization-temporal.yaml
   - kustomization-apps.yaml

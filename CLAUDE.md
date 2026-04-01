@@ -31,8 +31,8 @@ each depending on the previous one:
 - **infra/**: operators and CRDs
   (CloudNativePG, cert-manager, Traefik,
   Gateway API)
-- **addons/**: services that depend on operator
-  CRDs (Temporal, PostgreSQL cluster)
+- **temporal/**: Temporal server, PostgreSQL
+  cluster, and worker controller
 - **apps/**: user-facing applications (hello)
 
 ## Conventions

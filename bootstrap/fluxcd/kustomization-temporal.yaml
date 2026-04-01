@@ -1,12 +1,12 @@
-# Reconcile addons (Temporal, etc.) from the
-# addons/ directory in the Git repository.
+# Reconcile Temporal components (server, database,
+# worker controller) from the temporal/ directory.
 # Depends on infra so that operator CRDs
 # (e.g. CloudNativePG) are available before
 # custom resources are applied.
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: addons
+  name: temporal
   namespace: flux-system
 spec:
   interval: 10m
@@ -15,11 +15,11 @@ spec:
   sourceRef:
     kind: GitRepository
     name: temporal-k8s
-  path: ./addons
+  path: ./temporal
   prune: true
   timeout: 5m
   # Inject shared variables (e.g. base_domain)
-  # into addon manifests at deploy time.
+  # into temporal manifests at deploy time.
   postBuild:
     substituteFrom:
       - kind: ConfigMap

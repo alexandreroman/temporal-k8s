@@ -1,7 +1,6 @@
 # CloudNativePG Cluster for Temporal.
-# The operator must be installed first
-# (cloudnative-pg addon). Flux CD retries
-# until the CRD becomes available.
+# The CNPG operator is deployed in the infra
+# layer, which this layer depends on.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
