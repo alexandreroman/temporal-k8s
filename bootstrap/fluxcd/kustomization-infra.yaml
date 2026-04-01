@@ -31,3 +31,10 @@ spec:
       kind: Deployment
       name: cloudnative-pg
       namespace: cloudnative-pg
+    # Addons deploy an OpenTelemetryCollector CR
+    # which requires the operator webhook to be
+    # serving, otherwise dry-run validation fails.
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: opentelemetry-operator
+      namespace: opentelemetry-operator

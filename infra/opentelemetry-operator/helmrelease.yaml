@@ -23,9 +23,9 @@ spec:
         kind: HelmRepository
         name: open-telemetry
   values:
+    # Single replica for local dev.
+    replicaCount: 1
     manager:
-      # Single replica for local dev.
-      replicaCount: 1
       # Use the contrib collector image by default
       # so custom resources created by the operator
       # include exporters like prometheusremotewrite.
