@@ -1,0 +1,12 @@
+# Flux CD source: public Git repository containing
+# all Kubernetes manifests for this project.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: temporal-k8s
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://github.com/alexandreroman/temporal-k8s
+  ref:
+    branch: main

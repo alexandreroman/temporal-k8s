@@ -17,6 +17,7 @@ tasks:
       - task: cluster-create
       - task: cluster-ready
       - task: flux-install
+      - task: flux-bootstrap
 
   preflight:
     desc: Verify required tools are installed
@@ -58,6 +59,14 @@ tasks:
         --namespace flux-system
         --timeout=120s
         --context kind-{{.CLUSTER_NAME}}
+
+  flux-bootstrap:
+    desc: Apply initial Flux CD configuration
+    cmds:
+      - >-
+        kubectl apply
+        --context kind-{{.CLUSTER_NAME}}
+        -k ../fluxcd
 
   delete:
     desc: Delete the kind cluster

@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: traefik
+      version: "39.*"
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+  values:
+    # Use NodePort so traffic from Kind
+    # extraPortMappings reaches Traefik on
+    # worker nodes.
+    service:
+      type: NodePort
+    ports:
+      web:
+        nodePort: 30080
+      websecure:
+        nodePort: 30443
+    # Disable sending anonymous usage data.
+    globalArguments: []
