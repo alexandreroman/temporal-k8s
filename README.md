@@ -88,6 +88,36 @@ temporal workflow list \
 > cleartext) through Traefik on port 80 — no TLS
 > configuration is required.
 
+## Monitoring
+
+Prometheus, Grafana, and an OpenTelemetry Collector
+are deployed automatically by Flux CD.
+
+**Grafana** — dashboards and metric exploration
+(anonymous admin access, no login required):
+
+```text
+http://grafana.127-0-0-1.nip.io
+```
+
+Prometheus is pre-configured as the default
+datasource.
+
+**Prometheus** — raw metrics and PromQL queries:
+
+```text
+http://prometheus.127-0-0-1.nip.io
+```
+
+**OpenTelemetry Collector** — receives OTLP
+telemetry and pushes metrics to Prometheus via
+remote write. Reachable inside the cluster at:
+
+- `otel-collector.opentelemetry-collector:4317`
+  (gRPC)
+- `otel-collector.opentelemetry-collector:4318`
+  (HTTP)
+
 ## Tear down
 
 To tear down the cluster:
@@ -105,8 +135,12 @@ infra/
   cert-manager/     # TLS certificate management
   cloudnative-pg/   # PostgreSQL operator
   gateway-api/      # Gateway API CRDs
+  grafana/          # Dashboards & visualization
+  opentelemetry-operator/  # OTel Operator
+  prometheus/       # Metrics collection
   traefik/          # Ingress controller
 addons/
+  opentelemetry-collector/ # OTel Collector (CR)
   temporal/         # Temporal server + database
 apps/
   hello/            # Sample app for smoke testing
