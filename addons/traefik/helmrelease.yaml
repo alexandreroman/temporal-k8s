@@ -38,7 +38,10 @@ spec:
         web:
           # Allow HTTPRoutes from all namespaces,
           # not just the traefik namespace.
-          namespacePolicy: All
+          # Chart v37+ expects an object matching
+          # the Gateway API AllowedRoutes spec.
+          namespacePolicy:
+            from: All
     gatewayClass:
       enabled: true
     # Disable sending anonymous usage data.
