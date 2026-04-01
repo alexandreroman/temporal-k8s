@@ -1,5 +1,8 @@
-# Reconcile cluster addons (Traefik, etc.) from
-# the addons/ directory in the Git repository.
+# Reconcile addons (Temporal, etc.) from the
+# addons/ directory in the Git repository.
+# Depends on infra so that operator CRDs
+# (e.g. CloudNativePG) are available before
+# custom resources are applied.
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -7,6 +10,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  dependsOn:
+    - name: infra
   sourceRef:
     kind: GitRepository
     name: temporal-k8s

@@ -1,8 +1,7 @@
 # Reconcile applications (hello, etc.) from the
 # apps/ directory in the Git repository.
-# Depends on addons so that Traefik CRDs are
-# available before IngressRoute resources are
-# applied.
+# Depends on infra (Traefik CRDs, etc.) and
+# addons (Temporal, etc.) being ready first.
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
@@ -11,6 +10,7 @@ metadata:
 spec:
   interval: 10m
   dependsOn:
+    - name: infra
     - name: addons
   sourceRef:
     kind: GitRepository
