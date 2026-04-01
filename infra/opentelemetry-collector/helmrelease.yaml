@@ -48,7 +48,7 @@ spec:
           # Push metrics to Prometheus via its
           # remote write endpoint.
           endpoint: >-
-            http://prometheus-server.prometheus:80/api/v1/write
+            http://prometheus.monitoring:9090/api/v1/write
       extensions:
         health_check:
           endpoint: ${env:MY_POD_IP}:13133

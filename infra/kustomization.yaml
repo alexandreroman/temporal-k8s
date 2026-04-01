@@ -4,7 +4,7 @@ resources:
   - cert-manager
   - cloudnative-pg
   - gateway-api
-  - grafana
+  - kube-prometheus-stack
   - opentelemetry-collector
-  - prometheus
+  - prometheus-adapter
   - traefik

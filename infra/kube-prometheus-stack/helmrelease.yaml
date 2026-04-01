@@ -1,0 +1,77 @@
+# Unified monitoring stack (Prometheus + Grafana)
+# for local dev. Replaces standalone Prometheus and
+# Grafana charts with kube-prometheus-stack, which
+# bundles both plus pre-built dashboards.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "82.*"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+  values:
+    # Override the default long resource names
+    # (e.g. kube-prometheus-stack-prometheus) with
+    # short, readable ones (prometheus, grafana).
+    fullnameOverride: prometheus
+    cleanPrometheusOperatorObjectNames: true
+    # Alertmanager is not needed in a test
+    # environment.
+    alertmanager:
+      enabled: false
+    # kube-state-metrics is not needed; we only
+    # care about Temporal metrics here.
+    kubeStateMetrics:
+      enabled: false
+    # Disable the node-exporter to keep the
+    # footprint small on local dev.
+    nodeExporter:
+      enabled: false
+    # Disable default scraping rules and monitors
+    # that target cluster components we don't need
+    # to observe in a test environment.
+    defaultRules:
+      create: false
+    kubeApiServer:
+      enabled: false
+    kubelet:
+      enabled: false
+    kubeControllerManager:
+      enabled: false
+    coreDns:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    prometheus:
+      prometheusSpec:
+        # No persistent storage for test/dev.
+        storageSpec: {}
+        # Short retention for local dev.
+        retention: 3d
+        # Accept metrics pushed by the OpenTelemetry
+        # Collector via the remote write protocol.
+        enableRemoteWriteReceiver: true
+    grafana:
+      fullnameOverride: grafana
+      # No persistent storage for test/dev.
+      persistence:
+        enabled: false
+      # Disable authentication for convenience
+      # in a local dev environment.
+      grafana.ini:
+        auth.anonymous:
+          enabled: true
+          org_role: Admin
+        auth:
+          disable_login_form: true

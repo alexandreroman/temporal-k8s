@@ -4,4 +4,5 @@ resources:
   - namespace.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - httproute.yaml
+  - httproute-prometheus.yaml
+  - httproute-grafana.yaml
