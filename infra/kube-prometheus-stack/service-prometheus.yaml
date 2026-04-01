@@ -1,0 +1,17 @@
+# Service alias so that other components can reach
+# Prometheus at prometheus.monitoring:9090 instead
+# of the chart-generated name (prometheus-prometheus).
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  type: ClusterIP
+  ports:
+    - name: http-web
+      port: 9090
+      targetPort: 9090
+  selector:
+    app.kubernetes.io/name: prometheus
+    operator.prometheus.io/name: prometheus
