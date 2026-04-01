@@ -55,6 +55,15 @@ To trigger a full Flux CD reconciliation manually:
 task reconcile
 ```
 
+Verify that the cluster is working by hitting
+the hello app through Traefik:
+
+```sh
+curl http://hello.127-0-0-1.nip.io
+```
+
+You should see `Hello from Kubernetes!`.
+
 To tear down the cluster:
 
 ```sh
