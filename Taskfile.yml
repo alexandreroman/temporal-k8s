@@ -3,7 +3,20 @@ version: "3"
 vars:
   CLUSTER_NAME: temporal
 
+includes:
+  kind: ./bootstrap/kind
+
 tasks:
+  create:
+    desc: Create the Kind cluster and install Flux CD
+    cmds:
+      - task: kind:default
+
+  delete:
+    desc: Delete the Kind cluster
+    cmds:
+      - task: kind:delete
+
   reconcile:
     desc: Trigger a full Flux CD reconciliation
     cmds:

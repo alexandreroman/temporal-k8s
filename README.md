@@ -38,7 +38,7 @@ environment.
 Bootstrap a local cluster with Flux CD:
 
 ```sh
-task -d bootstrap/kind
+task create
 ```
 
 This will:
@@ -124,7 +124,7 @@ remote write. Reachable inside the cluster at:
 To tear down the cluster:
 
 ```sh
-task -d bootstrap/kind delete
+task delete
 ```
 
 ## Project structure
