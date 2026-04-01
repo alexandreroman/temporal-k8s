@@ -5,8 +5,6 @@
 > development only. It is **not** production-ready.
 > No support is provided. Use at your own risk.
 
-Temporal deployment on Kubernetes for testing purposes.
-
 ## Goal
 
 Provide a Kubernetes configuration to quickly deploy
@@ -56,7 +54,7 @@ task reconcile
 ```
 
 Verify that the cluster is working by hitting
-the hello app through Traefik:
+the `hello` app through Traefik:
 
 ```sh
 curl http://hello.127-0-0-1.nip.io
@@ -74,11 +72,16 @@ task -d bootstrap/kind-podman delete
 
 ```text
 bootstrap/
-  kind-podman/    # Kind cluster + Flux bootstrap
+  kind-podman/      # Kind cluster + Flux bootstrap
+infra/
+  cert-manager/     # TLS certificate management
+  cloudnative-pg/   # PostgreSQL operator
+  gateway-api/      # Gateway API CRDs
+  traefik/          # Ingress controller
 addons/
-  certmanager/     # TLS certificate management
-  temporal/        # Temporal server manifests
-  traefik/         # Ingress controller
+  temporal/         # Temporal server + database
+apps/
+  hello/            # Sample app for smoke testing
 ```
 
 ## Contributing
