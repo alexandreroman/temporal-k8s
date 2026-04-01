@@ -7,4 +7,5 @@ resources:
   - grafana
   - opentelemetry-operator
   - prometheus
+  - temporal-worker-controller
   - traefik

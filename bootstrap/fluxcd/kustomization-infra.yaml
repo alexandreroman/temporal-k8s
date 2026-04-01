@@ -38,3 +38,11 @@ spec:
       kind: Deployment
       name: opentelemetry-operator
       namespace: opentelemetry-operator
+    # Temporal Worker Controller manages
+    # TemporalWorkerDeployment CRs in addons.
+    # Its webhook must be serving before addons
+    # are applied.
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: temporal-worker-controller
+      namespace: temporal-worker-controller

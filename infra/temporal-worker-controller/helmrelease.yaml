@@ -1,0 +1,34 @@
+# Temporal Worker Controller automates safe
+# Kubernetes deployments for Temporal workers
+# using Worker Versioning.
+# Requires cert-manager for webhook TLS.
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: temporal-worker-controller
+  namespace: temporal-worker-controller
+spec:
+  interval: 1h
+  # CRDs must be installed before the controller,
+  # and cert-manager provides webhook TLS certs.
+  dependsOn:
+    - name: temporal-worker-controller-crds
+    - name: cert-manager
+      namespace: cert-manager
+  chart:
+    spec:
+      chart: temporal-worker-controller
+      # Chart version differs from appVersion:
+      # chart 0.24.x = app 1.5.x.
+      version: "0.24.*"
+      sourceRef:
+        kind: HelmRepository
+        name: temporal
+  values:
+    # Single replica for local dev.
+    replicas: 1
+    # cert-manager is already deployed in the
+    # infra layer; no need to install it again.
+    certmanager:
+      install: false
+      enabled: true
