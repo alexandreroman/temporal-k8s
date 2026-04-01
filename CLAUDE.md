@@ -25,6 +25,16 @@ Adapt configurations accordingly (e.g. avoid
 nodeSelector/tolerations that target the
 control-plane node).
 
+Flux CD deploys resources in three layers,
+each depending on the previous one:
+
+- **infra/**: operators and CRDs
+  (CloudNativePG, cert-manager, Traefik,
+  Gateway API)
+- **addons/**: services that depend on operator
+  CRDs (Temporal, PostgreSQL cluster)
+- **apps/**: user-facing applications (hello)
+
 ## Conventions
 
 - All generated text and code must be in English
