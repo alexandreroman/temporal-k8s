@@ -1,0 +1,26 @@
+# CloudNativePG Cluster for Temporal.
+# The operator must be installed first
+# (cloudnative-pg addon). Flux CD retries
+# until the CRD becomes available.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: temporal-postgresql
+  namespace: temporal
+spec:
+  # PostgreSQL 16 is the version used in
+  # Temporal's official docker-compose setup.
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  # Single instance is sufficient for local
+  # development. No HA replicas needed.
+  instances: 1
+  storage:
+    size: 1Gi
+  bootstrap:
+    initdb:
+      database: temporal
+      owner: temporal
+      # Grant CREATEDB so Temporal schema jobs
+      # can create the visibility database.
+      postInitSQL:
+        - ALTER USER temporal CREATEDB
