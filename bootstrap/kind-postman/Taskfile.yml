@@ -1,0 +1,65 @@
+version: "3"
+
+vars:
+  CLUSTER_NAME: temporal
+  KIND_CONFIG: kind-config.yaml
+  FLUX_VERSION: "2.8.3"
+
+env:
+  KIND_EXPERIMENTAL_PROVIDER: podman
+
+tasks:
+  default:
+    desc: Create the kind cluster
+    aliases: [create]
+    cmds:
+      - task: preflight
+      - task: cluster-create
+      - task: cluster-ready
+      - task: flux-install
+
+  preflight:
+    desc: Verify required tools are installed
+    silent: true
+    cmds:
+      - command -v kind >/dev/null
+      - command -v podman >/dev/null
+      - podman info >/dev/null 2>&1
+
+  cluster-create:
+    desc: Create the kind cluster on Podman
+    status:
+      - kind get clusters | grep -q "^{{.CLUSTER_NAME}}$"
+    cmds:
+      - >-
+        kind create cluster
+        --name {{.CLUSTER_NAME}}
+        --config {{.KIND_CONFIG}}
+
+  cluster-ready:
+    desc: Wait for the cluster to be ready
+    cmds:
+      - >-
+        kubectl wait --for=condition=Ready
+        nodes --all
+        --timeout=120s
+        --context kind-{{.CLUSTER_NAME}}
+
+  flux-install:
+    desc: Deploy Flux CD into the cluster
+    cmds:
+      - >-
+        kubectl apply
+        --context kind-{{.CLUSTER_NAME}}
+        -f https://github.com/fluxcd/flux2/releases/download/v{{.FLUX_VERSION}}/install.yaml
+      - >-
+        kubectl wait --for=condition=Available
+        deployments --all
+        --namespace flux-system
+        --timeout=120s
+        --context kind-{{.CLUSTER_NAME}}
+
+  delete:
+    desc: Delete the kind cluster
+    cmds:
+      - kind delete cluster --name {{.CLUSTER_NAME}}
