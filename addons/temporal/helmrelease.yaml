@@ -61,11 +61,11 @@ spec:
                 maxConns: 10
                 maxIdleConns: 10
                 maxConnLifetime: 1h
-        # Disable Prometheus metrics endpoint
-        # to reduce resource usage on local dev.
+        # Enable Prometheus metrics endpoint so
+        # Prometheus can scrape Temporal services.
         metrics:
           prometheus:
-            listenAddress: ""
+            listenAddress: "0.0.0.0:9090"
         # Auto-create the default namespace
         # so Temporal is ready to use immediately.
         namespaces:
@@ -73,11 +73,12 @@ spec:
           namespace:
             - name: default
               retention: 3d
-      # Disable Prometheus annotations on pods
-      # since we are not running Prometheus.
+      # Enable Prometheus annotations on pods so
+      # the Prometheus server can auto-discover
+      # Temporal services via pod annotations.
       metrics:
         annotations:
-          enabled: false
+          enabled: true
         serviceMonitor:
           enabled: false
       # Single replica per service for local dev.

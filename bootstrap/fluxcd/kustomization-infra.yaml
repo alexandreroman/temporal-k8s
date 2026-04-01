@@ -14,6 +14,12 @@ spec:
   path: ./infra
   prune: true
   timeout: 5m
+  # Inject shared variables (e.g. base_domain)
+  # into infra manifests at deploy time.
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-config
   # Wait for the CloudNativePG operator to be
   # fully ready (including its webhook) before
   # marking infra as Ready. Without this,
