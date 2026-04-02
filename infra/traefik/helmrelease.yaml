@@ -29,6 +29,8 @@ spec:
       # host port 7233 by Kind).
       grpc:
         port: 9233
+        expose:
+          default: true
         protocol: TCP
         nodePort: 30723
     # Enable Kubernetes Gateway API provider
