@@ -15,6 +15,7 @@ environment.
 - **Kubernetes**: target deployment platform
   (Kind cluster with multiple worker nodes)
 - **Flux CD**: GitOps-based deployment
+  (CLI is optional — Flux runs in-cluster)
 
 ## Architecture
 

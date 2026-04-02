@@ -30,7 +30,8 @@ environment.
 - [Kind](https://kind.sigs.k8s.io/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Flux CD CLI](https://fluxcd.io/flux/cmd/)
-  (`brew install fluxcd/tap/flux`)
+  (`brew install fluxcd/tap/flux`) — optional,
+  only needed for `task reconcile`
 - [Task](https://taskfile.dev/)
 
 ## Quick start
