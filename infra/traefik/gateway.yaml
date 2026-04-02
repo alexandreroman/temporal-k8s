@@ -1,0 +1,24 @@
+# Custom Gateway resource that accepts both
+# HTTPRoute and GRPCRoute from any namespace.
+# The Traefik Helm chart does not expose
+# allowedRoutes.kinds in its values, so we
+# manage the Gateway ourselves.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: traefik-gateway
+  namespace: traefik
+spec:
+  gatewayClassName: traefik
+  listeners:
+    - name: web
+      port: 8000
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
+          - group: gateway.networking.k8s.io
+            kind: GRPCRoute

@@ -29,19 +29,12 @@ spec:
     providers:
       kubernetesGateway:
         enabled: true
-    # Deploy a default Gateway that accepts
-    # routes from any namespace, so apps in
-    # other namespaces can reference it.
+    # Disable the chart-managed Gateway so we
+    # can define our own with full control over
+    # allowedRoutes (the chart does not expose
+    # allowedRoutes.kinds in its values).
     gateway:
-      enabled: true
-      listeners:
-        web:
-          # Allow HTTPRoutes from all namespaces,
-          # not just the traefik namespace.
-          # Chart v37+ expects an object matching
-          # the Gateway API AllowedRoutes spec.
-          namespacePolicy:
-            from: All
+      enabled: false
     gatewayClass:
       enabled: true
     # Disable sending anonymous usage data.
