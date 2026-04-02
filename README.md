@@ -112,7 +112,15 @@ http://prometheus.127-0-0-1.nip.io
 
 **OpenTelemetry Collector** — receives OTLP
 telemetry and pushes metrics to Prometheus via
-remote write. Reachable inside the cluster at:
+remote write. The HTTP receiver is exposed on
+its standard port through Traefik:
+
+```sh
+curl http://otel.127-0-0-1.nip.io:4318/v1/metrics
+```
+
+Inside the cluster, the collector is also
+reachable at:
 
 - `otel-collector.opentelemetry:4317`
   (gRPC)

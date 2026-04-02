@@ -33,6 +33,17 @@ spec:
           default: true
         protocol: TCP
         nodePort: 30723
+      # Dedicated entrypoint for OpenTelemetry
+      # Collector HTTP receiver. Traefik listens
+      # on port 4318 internally, exposed as
+      # NodePort 30418 (mapped to host port 4318
+      # by Kind).
+      otel:
+        port: 4318
+        expose:
+          default: true
+        protocol: TCP
+        nodePort: 30418
     # Enable Kubernetes Gateway API provider
     # so HTTPRoute resources are processed
     # instead of Traefik-specific IngressRoute.

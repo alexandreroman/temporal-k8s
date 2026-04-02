@@ -1,0 +1,24 @@
+# HTTPRoute to expose the OpenTelemetry Collector
+# HTTP receiver via Traefik. Applications can push
+# telemetry to otel.${base_domain}:4318 using the
+# OTLP/HTTP protocol.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: otel-collector
+  namespace: opentelemetry
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: traefik
+      sectionName: otel
+  hostnames:
+    - "otel.${base_domain}"
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: otel-collector
+          port: 4318

@@ -18,5 +18,11 @@ nodes:
       - containerPort: 30723
         hostPort: 7233
         protocol: TCP
+      # Expose OpenTelemetry Collector HTTP
+      # receiver on its standard port so local
+      # apps can push telemetry to port 4318.
+      - containerPort: 30418
+        hostPort: 4318
+        protocol: TCP
   - role: worker
   - role: worker

@@ -32,3 +32,15 @@ spec:
         kinds:
           - group: gateway.networking.k8s.io
             kind: GRPCRoute
+    # Dedicated listener for OpenTelemetry
+    # Collector HTTP traffic on port 4318.
+    # Mapped through Traefik entrypoint "otel".
+    - name: otel
+      port: 4318
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
