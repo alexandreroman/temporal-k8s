@@ -77,18 +77,17 @@ http://temporal.127-0-0-1.nip.io
 ```
 
 **gRPC frontend** — connect workers and the
-Temporal CLI (`temporal`/`tctl`) on port 80 using
-the `temporal-api` hostname:
+Temporal CLI on the standard port 7233:
 
 ```sh
 temporal workflow list \
-  --address temporal-api.127-0-0-1.nip.io:80
+  --address temporal.127-0-0-1.nip.io:7233
 ```
 
 > [!NOTE]
 > The gRPC frontend is exposed over h2c (HTTP/2
-> cleartext) through Traefik on port 80 — no TLS
-> configuration is required.
+> cleartext) through a dedicated Traefik entrypoint
+> on port 7233 — no TLS configuration is required.
 
 ## Monitoring
 
