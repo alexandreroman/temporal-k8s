@@ -23,6 +23,14 @@ spec:
         nodePort: 30080
       websecure:
         nodePort: 30443
+      # Dedicated gRPC entrypoint for Temporal.
+      # Traefik listens on port 9233 internally,
+      # exposed as NodePort 30723 (mapped to
+      # host port 7233 by Kind).
+      grpc:
+        port: 9233
+        protocol: TCP
+        nodePort: 30723
     # Enable Kubernetes Gateway API provider
     # so HTTPRoute resources are processed
     # instead of Traefik-specific IngressRoute.

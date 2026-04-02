@@ -20,5 +20,15 @@ spec:
         kinds:
           - group: gateway.networking.k8s.io
             kind: HTTPRoute
+    # Dedicated listener for gRPC traffic on
+    # the Temporal standard port. Mapped through
+    # Traefik entrypoint "grpc" (port 9233).
+    - name: grpc
+      port: 9233
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
           - group: gateway.networking.k8s.io
             kind: GRPCRoute
