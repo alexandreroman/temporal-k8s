@@ -16,5 +16,7 @@ spec:
     - "temporal-api.${base_domain}"
   rules:
     - backendRefs:
-        - name: temporal-frontend
+        # Use the h2c service alias so Traefik
+        # recognizes this as a gRPC backend.
+        - name: temporal-frontend-grpc
           port: 7233

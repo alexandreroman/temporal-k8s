@@ -1,0 +1,21 @@
+# Service alias for the Temporal frontend that
+# declares appProtocol h2c, required by Traefik
+# to proxy gRPC traffic via GRPCRoute.
+# The Helm-managed service uses appProtocol "tcp"
+# which Traefik does not accept as a gRPC backend.
+apiVersion: v1
+kind: Service
+metadata:
+  name: temporal-frontend-grpc
+  namespace: temporal
+spec:
+  selector:
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: temporal
+    app.kubernetes.io/name: temporal
+  ports:
+    - name: grpc
+      port: 7233
+      targetPort: rpc
+      protocol: TCP
+      appProtocol: kubernetes.io/h2c
