@@ -93,5 +93,11 @@ spec:
     web:
       enabled: true
       replicaCount: 1
+      additionalEnv:
+        # Allow CSRF cookie over plain HTTP.
+        # Required because the UI is accessed
+        # without TLS in this test environment.
+        - name: TEMPORAL_CSRF_COOKIE_INSECURE
+          value: "true"
     admintools:
       enabled: true
