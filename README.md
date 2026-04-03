@@ -39,7 +39,7 @@ environment.
 Bootstrap a local cluster with Flux CD:
 
 ```sh
-task create
+task cluster-create
 ```
 
 This will:
@@ -132,7 +132,7 @@ reachable at:
 To tear down the cluster:
 
 ```sh
-task delete
+task cluster-delete
 ```
 
 ## Project structure

@@ -12,12 +12,12 @@ includes:
     dir: ./bootstrap/kind
 
 tasks:
-  create:
+  cluster-create:
     desc: Create the Kind cluster and install Flux CD
     cmds:
       - task: kind:default
 
-  delete:
+  cluster-delete:
     desc: Delete the Kind cluster
     cmds:
       - task: kind:delete
