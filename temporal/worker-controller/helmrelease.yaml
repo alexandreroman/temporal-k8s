@@ -32,3 +32,13 @@ spec:
     certmanager:
       install: false
       enabled: true
+    # Resource kinds allowed in
+    # WorkerResourceTemplate objects.
+    workerResourceTemplate:
+      allowedResources:
+        - kinds: ["HorizontalPodAutoscaler"]
+          apiGroups: ["autoscaling"]
+          resources: ["horizontalpodautoscalers"]
+        - kinds: ["ScaledObject"]
+          apiGroups: ["keda.sh"]
+          resources: ["scaledobjects"]
