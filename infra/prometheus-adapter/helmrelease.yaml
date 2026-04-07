@@ -1,15 +1,6 @@
 # prometheus-adapter exposes Prometheus metrics as
-# Kubernetes custom metrics (custom.metrics.k8s.io),
-# so that HPAs can scale workloads based on
-# application-level metrics collected by Prometheus.
-#
-# External metrics rules are adapted from the
-# temporal-worker-controller demo configuration:
-# https://github.com/temporalio/temporal-worker-controller/blob/release/v1.5.0/internal/demo/k8s/prometheus-adapter-values.yaml
-#
-# The HelmRepository "prometheus-community" already
-# exists in the monitoring namespace (shared with
-# kube-prometheus-stack).
+# Kubernetes external metrics so that HPAs can scale
+# workloads based on application-level signals.
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -26,8 +17,6 @@ spec:
         name: prometheus-community
   values:
     prometheus:
-      # Use the stable service alias defined in
-      # kube-prometheus-stack/service-prometheus.yaml
       url: http://prometheus.monitoring
       port: 9090
     # Must be greater than the Prometheus scrape
@@ -35,34 +24,12 @@ spec:
     metricsRelistInterval: 15s
     rules:
       external:
-        # Slot utilization per worker version.
-        # Aggregated by the temporal_slot_utilization
-        # recording rule in kube-prometheus-stack.
-        # HPA selects via matchLabels:
-        #   temporal_worker_deployment_name
-        #   temporal_worker_build_id
-        #   temporal_namespace
-        - seriesQuery: >-
-            temporal_slot_utilization{}
-          metricsQuery: >-
-            avg(<<.Series>>{<<.LabelMatchers>>})
+        # Total Temporal task queue backlog.
+        # Derived from the temporal_task_queue_backlog
+        # recording rule in the temporal namespace.
+        - seriesQuery: temporal_task_queue_backlog
+          metricsQuery: sum(<<.Series>>)
           name:
-            as: "temporal_slot_utilization"
+            as: temporal_task_queue_backlog
           resources:
-            # Cluster-scoped: HPAs in any k8s
-            # namespace can consume this metric.
-            namespaced: false
-        # Approximate backlog count per worker
-        # version (from Temporal Cloud).
-        # Uses the temporal_backlog_count_by_version
-        # recording rule.
-        - seriesQuery: >-
-            temporal_backlog_count_by_version{}
-          metricsQuery: >-
-            sum(<<.Series>>{<<.LabelMatchers>>})
-          name:
-            as: "temporal_backlog_count_by_version"
-          resources:
-            # Cluster-scoped: HPAs in any k8s
-            # namespace can consume this metric.
             namespaced: false
