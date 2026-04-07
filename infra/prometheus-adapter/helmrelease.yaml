@@ -3,6 +3,10 @@
 # so that HPAs can scale workloads based on
 # application-level metrics collected by Prometheus.
 #
+# External metrics rules are adapted from the
+# temporal-worker-controller demo configuration:
+# https://github.com/temporalio/temporal-worker-controller/blob/release/v1.5.0/internal/demo/k8s/prometheus-adapter-values.yaml
+#
 # The HelmRepository "prometheus-community" already
 # exists in the monitoring namespace (shared with
 # kube-prometheus-stack).
@@ -26,3 +30,39 @@ spec:
       # kube-prometheus-stack/service-prometheus.yaml
       url: http://prometheus.monitoring
       port: 9090
+    # Must be greater than the Prometheus scrape
+    # interval (default 10s in our setup).
+    metricsRelistInterval: 15s
+    rules:
+      external:
+        # Slot utilization per worker version.
+        # Aggregated by the temporal_slot_utilization
+        # recording rule in kube-prometheus-stack.
+        # HPA selects via matchLabels:
+        #   temporal_worker_deployment_name
+        #   temporal_worker_build_id
+        #   temporal_namespace
+        - seriesQuery: >-
+            temporal_slot_utilization{}
+          metricsQuery: >-
+            avg(<<.Series>>{<<.LabelMatchers>>})
+          name:
+            as: "temporal_slot_utilization"
+          resources:
+            # Cluster-scoped: HPAs in any k8s
+            # namespace can consume this metric.
+            namespaced: false
+        # Approximate backlog count per worker
+        # version (from Temporal Cloud).
+        # Uses the temporal_backlog_count_by_version
+        # recording rule.
+        - seriesQuery: >-
+            temporal_backlog_count_by_version{}
+          metricsQuery: >-
+            sum(<<.Series>>{<<.LabelMatchers>>})
+          name:
+            as: "temporal_backlog_count_by_version"
+          resources:
+            # Cluster-scoped: HPAs in any k8s
+            # namespace can consume this metric.
+            namespaced: false
