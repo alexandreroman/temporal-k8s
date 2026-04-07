@@ -6,5 +6,6 @@ resources:
   - cluster-postgresql.yaml
   - helmrelease.yaml
   - service-frontend.yaml
+  - podmonitor.yaml
   - grpcroute.yaml
   - httproute.yaml

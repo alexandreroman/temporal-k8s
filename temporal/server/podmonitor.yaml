@@ -1,0 +1,37 @@
+# PodMonitor for Temporal server components.
+# The Helm chart (1.0.0-rc.3) does not generate a
+# ServiceMonitor/PodMonitor even with
+# serviceMonitor.enabled, and the Services do not
+# expose the metrics port (9090). A PodMonitor
+# targets pods directly via their named "metrics"
+# container port.
+#
+# Prometheus selects monitors matching
+# release=kube-prometheus-stack; this label is
+# required for discovery.
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: temporal
+  namespace: temporal
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: temporal
+      app.kubernetes.io/part-of: temporal
+    matchExpressions:
+      # Exclude non-server components (web,
+      # admintools, schema jobs).
+      - key: app.kubernetes.io/component
+        operator: In
+        values:
+          - frontend
+          - history
+          - matching
+          - worker
+  podMetricsEndpoints:
+    - port: metrics
+      path: /metrics
+      interval: 10s

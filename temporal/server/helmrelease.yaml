@@ -79,8 +79,10 @@ spec:
       metrics:
         annotations:
           enabled: true
+        # ServiceMonitor is not supported by this
+        # chart version; see podmonitor.yaml instead.
         serviceMonitor:
-          enabled: true
+          enabled: false
       # Single replica per service for local dev.
       frontend:
         replicaCount: 1
