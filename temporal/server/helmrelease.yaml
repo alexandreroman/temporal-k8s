@@ -80,7 +80,7 @@ spec:
         annotations:
           enabled: true
         serviceMonitor:
-          enabled: false
+          enabled: true
       # Single replica per service for local dev.
       frontend:
         replicaCount: 1
