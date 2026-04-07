@@ -1,0 +1,39 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: temporal-recording-rules
+  namespace: temporal
+  labels:
+    # Required for kube-prometheus-stack to
+    # pick up this PrometheusRule.
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: temporal.autoscaling
+      interval: 10s
+      rules:
+        # Produce temporal_backlog_count_by_version
+        # with labels expected by the Worker
+        # Controller's WorkerResourceTemplate:
+        #   temporal_namespace
+        #   temporal_worker_build_id
+        #   task_type
+        - record: temporal_backlog_count_by_version
+          expr: >-
+            label_replace(
+              label_replace(
+                sum by (
+                  exported_namespace,
+                  worker_version,
+                  task_type
+                ) (approximate_backlog_count),
+                "temporal_namespace",
+                "$1",
+                "exported_namespace",
+                "(.*)"
+              ),
+              "temporal_worker_build_id",
+              "$1",
+              "worker_version",
+              "(.*)"
+            )

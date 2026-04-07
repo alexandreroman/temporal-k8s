@@ -7,5 +7,6 @@ resources:
   - helmrelease.yaml
   - service-frontend.yaml
   - podmonitor.yaml
+  - prometheus-rules.yaml
   - grpcroute.yaml
   - httproute.yaml
