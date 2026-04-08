@@ -33,3 +33,15 @@ spec:
             as: temporal_task_queue_backlog
           resources:
             namespaced: false
+        # Per-version worker slot usage.
+        # The Worker Controller injects matchLabels
+        # into each versioned HPA; LabelMatchers
+        # passes them through for filtering.
+        - seriesQuery: >-
+            temporal_worker_slots_used_by_version
+          metricsQuery: >-
+            <<.Series>>{<<.LabelMatchers>>}
+          name:
+            as: temporal_worker_slots_used_by_version
+          resources:
+            namespaced: false

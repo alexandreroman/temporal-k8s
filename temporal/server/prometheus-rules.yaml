@@ -19,3 +19,14 @@ spec:
         - record: temporal_task_queue_backlog
           expr: >-
             sum(approximate_backlog_count)
+        # Per-version slot usage, summed across worker
+        # types (Workflow, Activity) and pod instances.
+        # Exposed as a Kubernetes external metric
+        # by prometheus-adapter.
+        - record: temporal_worker_slots_used_by_version
+          expr: >-
+            sum by (
+              temporal_worker_deployment_name,
+              temporal_worker_build_id,
+              temporal_namespace
+            ) (temporal_worker_task_slots_used)
