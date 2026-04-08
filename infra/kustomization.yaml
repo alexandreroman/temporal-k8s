@@ -6,6 +6,5 @@ resources:
   - gateway-api
   - kube-prometheus-stack
   - prometheus-adapter
-  - keda
   - opentelemetry-collector
   - traefik
