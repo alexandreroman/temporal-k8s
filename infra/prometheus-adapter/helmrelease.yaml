@@ -23,6 +23,14 @@ spec:
     metricsRelistInterval: 15s
     rules:
       external:
+        # Total task queue backlog (global, all
+        # versions). Primary HPA scaling signal.
+        - seriesQuery: temporal_task_queue_backlog
+          metricsQuery: sum(<<.Series>>)
+          name:
+            as: temporal_task_queue_backlog
+          resources:
+            namespaced: false
         # Per-version worker slot usage.
         # The Worker Controller injects matchLabels
         # into each versioned HPA; LabelMatchers
