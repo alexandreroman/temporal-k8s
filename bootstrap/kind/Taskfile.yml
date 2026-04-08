@@ -54,6 +54,19 @@ tasks:
         kind create cluster
         --name {{.CLUSTER_NAME}}
         --config {{.KIND_CONFIG}}
+      # Default Podman PIDs limit (2048) is shared
+      # across all pods on a node. Removing the cap
+      # prevents OOM native-thread errors in JVM
+      # workers with large thread pools.
+      - >-
+        {{.PROVIDER}} update --pids-limit -1
+        {{.CLUSTER_NAME}}-worker
+      - >-
+        {{.PROVIDER}} update --pids-limit -1
+        {{.CLUSTER_NAME}}-worker2
+      - >-
+        {{.PROVIDER}} update --pids-limit -1
+        {{.CLUSTER_NAME}}-worker3
 
   cluster-ready:
     desc: Wait for the cluster to be ready

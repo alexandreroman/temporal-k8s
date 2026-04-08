@@ -5,12 +5,6 @@ networking:
 nodes:
   - role: control-plane
   - role: worker
-    kubeadmConfigPatches:
-      # Default podPidsLimit (~307) is too low
-      # for JVM workers with gRPC thread pools.
-      - |
-        kind: KubeletConfiguration
-        podPidsLimit: 4096
     extraPortMappings:
       - containerPort: 30080
         hostPort: 80
@@ -31,12 +25,4 @@ nodes:
         hostPort: 4318
         protocol: TCP
   - role: worker
-    kubeadmConfigPatches:
-      - |
-        kind: KubeletConfiguration
-        podPidsLimit: 4096
   - role: worker
-    kubeadmConfigPatches:
-      - |
-        kind: KubeletConfiguration
-        podPidsLimit: 4096
