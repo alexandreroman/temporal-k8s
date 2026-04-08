@@ -12,13 +12,6 @@ spec:
     - name: temporal.autoscaling
       interval: 10s
       rules:
-        # Total task queue backlog, summed across
-        # all partitions and versions.
-        # Exposed as a Kubernetes external metric
-        # by prometheus-adapter.
-        - record: temporal_task_queue_backlog
-          expr: >-
-            sum(approximate_backlog_count)
         # Per-version slot usage, summed across worker
         # types (Workflow, Activity) and pod instances.
         # Exposed as a Kubernetes external metric

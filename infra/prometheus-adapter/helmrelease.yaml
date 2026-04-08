@@ -1,6 +1,5 @@
-# prometheus-adapter exposes Prometheus metrics as
-# Kubernetes external metrics so that HPAs can scale
-# workloads based on application-level signals.
+# prometheus-adapter exposes Prometheus recording rules
+# as Kubernetes external metrics for HPA autoscaling.
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -24,15 +23,6 @@ spec:
     metricsRelistInterval: 15s
     rules:
       external:
-        # Total Temporal task queue backlog.
-        # Derived from the temporal_task_queue_backlog
-        # recording rule in the temporal namespace.
-        - seriesQuery: temporal_task_queue_backlog
-          metricsQuery: sum(<<.Series>>)
-          name:
-            as: temporal_task_queue_backlog
-          resources:
-            namespaced: false
         # Per-version worker slot usage.
         # The Worker Controller injects matchLabels
         # into each versioned HPA; LabelMatchers
