@@ -10,7 +10,7 @@ metadata:
 spec:
   groups:
     - name: temporal.autoscaling
-      interval: 10s
+      interval: 5s
       rules:
         # Total task queue backlog, summed across
         # all partitions and versions. Used by the

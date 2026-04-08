@@ -34,4 +34,4 @@ spec:
   podMetricsEndpoints:
     - port: metrics
       path: /metrics
-      interval: 10s
+      interval: 5s

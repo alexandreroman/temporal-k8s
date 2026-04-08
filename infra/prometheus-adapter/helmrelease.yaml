@@ -19,8 +19,8 @@ spec:
       url: http://prometheus.monitoring
       port: 9090
     # Must be greater than the Prometheus scrape
-    # interval (default 10s in our setup).
-    metricsRelistInterval: 15s
+    # interval (5s in our setup).
+    metricsRelistInterval: 5s
     rules:
       external:
         # Total task queue backlog (global, all
