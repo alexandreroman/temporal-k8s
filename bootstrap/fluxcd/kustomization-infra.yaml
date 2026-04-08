@@ -31,3 +31,11 @@ spec:
       kind: Deployment
       name: cloudnative-pg
       namespace: cloudnative-pg
+    # Wait for the Prometheus operator so that
+    # its CRDs (PodMonitor, ServiceMonitor, etc.)
+    # are fully registered before dependent
+    # kustomizations run dry-run validation.
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: prometheus-operator
+      namespace: monitoring
