@@ -20,7 +20,7 @@ tasks:
   cluster-delete:
     desc: Delete the Kind cluster
     cmds:
-      - task: kind:delete
+      - task: kind:cluster-delete
 
   reconcile:
     desc: Trigger a full Flux CD reconciliation

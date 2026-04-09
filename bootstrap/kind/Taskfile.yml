@@ -99,7 +99,7 @@ tasks:
         --context kind-{{.CLUSTER_NAME}}
         -k ../fluxcd
 
-  delete:
+  cluster-delete:
     desc: Delete the kind cluster
     cmds:
       - kind delete cluster --name {{.CLUSTER_NAME}}
