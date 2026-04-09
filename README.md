@@ -25,6 +25,8 @@ environment.
 
 ## Prerequisites
 
+- 16 GB RAM recommended (the Kind cluster runs
+  3 worker nodes)
 - [Docker](https://www.docker.com/) or
   [Podman](https://podman.io/)
 - [Kind](https://kind.sigs.k8s.io/)
