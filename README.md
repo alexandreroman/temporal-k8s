@@ -30,8 +30,7 @@ environment.
 - [Kind](https://kind.sigs.k8s.io/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Flux CD CLI](https://fluxcd.io/flux/cmd/)
-  (`brew install fluxcd/tap/flux`) — optional,
-  only needed for `task reconcile`
+  (`brew install fluxcd/tap/flux`)
 - [Task](https://taskfile.dev/)
 
 ## Quick start
@@ -48,11 +47,12 @@ This will:
 2. Create a Kind cluster named `temporal`
 3. Wait for the cluster nodes to be ready
 4. Install Flux CD into the cluster
+5. Wait for all components to be deployed
 
-To trigger a full Flux CD reconciliation manually:
+To re-trigger a Flux CD reconciliation manually:
 
 ```sh
-task reconcile
+task flux-reconcile
 ```
 
 Verify that the cluster is working by hitting

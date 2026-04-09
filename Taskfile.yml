@@ -13,16 +13,19 @@ includes:
 
 tasks:
   cluster-create:
-    desc: Create the Kind cluster and install Flux CD
+    desc: Create the Kind cluster and deploy components
     cmds:
       - task: kind:default
+      # Wait for Flux CD to finish deploying all
+      # components (infra, temporal, apps).
+      - task: flux-reconcile
 
   cluster-delete:
     desc: Delete the Kind cluster
     cmds:
       - task: kind:cluster-delete
 
-  reconcile:
+  flux-reconcile:
     desc: Trigger a full Flux CD reconciliation
     cmds:
       # --with-source refreshes the GitRepository
