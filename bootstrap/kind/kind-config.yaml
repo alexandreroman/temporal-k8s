@@ -4,6 +4,14 @@ networking:
   apiServerAddress: "127.0.0.1"
 nodes:
   - role: control-plane
+    # Default 15s HPA sync is the dominant fixed
+    # delay in scale reactions; trim to 5s.
+    kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        controllerManager:
+          extraArgs:
+            horizontal-pod-autoscaler-sync-period: 5s
   - role: worker
     extraPortMappings:
       - containerPort: 30080
