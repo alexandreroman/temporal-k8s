@@ -2,7 +2,14 @@
 # they are owned by the dedicated crds layer and
 # survive HelmRelease re-installs. The cert-manager
 # chart in infra/ runs with crds.enabled=false.
+#
+# upstream/cert-manager.crds.yaml is managed by vendir
+# (do not hand-edit). The source-of-truth lives in
+# vendir.yml at the repo root; refresh with
+# `task vendir-sync`. Vendoring avoids a flaky
+# kustomize URL heuristic that intermittently treats
+# the GitHub release URL as a git clone target.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - https://github.com/cert-manager/cert-manager/releases/download/v1.20.2/cert-manager.crds.yaml
+  - upstream/cert-manager.crds.yaml

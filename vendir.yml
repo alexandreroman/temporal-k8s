@@ -1,0 +1,64 @@
+# Vendir-managed upstream sources.
+#
+# Each `directories` entry is fully owned by vendir:
+# its contents are wiped and replaced on every sync,
+# so do not hand-edit anything under those paths.
+#
+# Refresh with: task vendir-sync
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+
+directories:
+  - path: crds/cert-manager/upstream
+    contents:
+      - path: .
+        # cert-manager publishes the CRD bundle as a
+        # GitHub release asset rather than a chart, so
+        # we pin the release tag explicitly. Bump the
+        # tag here, then run `task vendir-sync`.
+        githubRelease:
+          slug: cert-manager/cert-manager
+          tag: v1.20.2
+          # cert-manager does not ship a checksums file
+          # in a vendir-compatible format for this asset.
+          disableAutoChecksumValidation: true
+          assetNames:
+            - cert-manager.crds.yaml
+        # Drop release metadata vendir would otherwise
+        # leave behind; keep only the CRDs file.
+        includePaths:
+          - cert-manager.crds.yaml
+
+  - path: crds/cloudnative-pg/upstream
+    contents:
+      - path: .
+        # CNPG ships CRDs in the operator source tree
+        # (no standalone CRD release artifact), so we
+        # vendor the pinned tag directly. Bump the ref
+        # here, then run `task vendir-sync`.
+        git:
+          url: https://github.com/cloudnative-pg/cloudnative-pg
+          ref: v1.29.0
+        # Vendor the CRD kustomize package only and
+        # rebase it to the upstream/ root so the local
+        # kustomization.yaml can simply reference
+        # `upstream` without a config/crd/ prefix.
+        includePaths:
+          - config/crd/**
+        newRootPath: config/crd
+
+  - path: crds/gateway-api/upstream
+    contents:
+      - path: .
+        # Gateway API CRDs are versioned in-tree under
+        # config/crd; pin the API release tag here and
+        # bump it together with `task vendir-sync`.
+        git:
+          url: https://github.com/kubernetes-sigs/gateway-api
+          ref: v1.2.1
+        # Same shape as cnpg: keep only the CRD package
+        # and rebase to upstream/ so local kustomization
+        # references `upstream` directly.
+        includePaths:
+          - config/crd/**
+        newRootPath: config/crd

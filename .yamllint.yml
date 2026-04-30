@@ -1,5 +1,16 @@
 extends: default
 
+# Vendir-managed upstream sources are exempt from
+# lint: we do not own the formatting and reformatting
+# would diverge from the release artifact. Ignoring
+# the whole directory keeps future synced files
+# exempt automatically.
+ignore: |
+  crds/cert-manager/upstream/
+  crds/cloudnative-pg/upstream/
+  crds/gateway-api/upstream/
+  vendir.lock.yml
+
 rules:
   line-length:
     max: 120

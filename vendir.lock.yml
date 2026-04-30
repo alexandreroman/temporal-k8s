@@ -1,0 +1,25 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - githubRelease:
+      tag: v1.20.2
+      url: https://api.github.com/repos/cert-manager/cert-manager/releases/307870408
+    path: .
+  path: crds/cert-manager/upstream
+- contents:
+  - git:
+      commitTitle: Version tag to 1.29.0 (#10400)...
+      sha: 23eae00cd7aad82978397798dd27b600eb25ae3d
+      tags:
+      - v1.29.0
+    path: .
+  path: crds/cloudnative-pg/upstream
+- contents:
+  - git:
+      commitTitle: 'chore: CHANGELOG for 1.2.1 (#3480)...'
+      sha: a8fe5c8732a37ef471d86afaf570ff8ad0ef0221
+      tags:
+      - v1.2.1
+    path: .
+  path: crds/gateway-api/upstream
+kind: LockConfig

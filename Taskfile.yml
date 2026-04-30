@@ -25,6 +25,13 @@ tasks:
     cmds:
       - task: kind:cluster-delete
 
+  vendir-sync:
+    desc: Refresh vendir-managed upstream sources
+    cmds:
+      # vendir.yml lives at the repo root; this
+      # rewrites every `directories` entry in place.
+      - vendir sync
+
   flux-reconcile:
     desc: Trigger a full Flux CD reconciliation
     cmds:
