@@ -23,9 +23,13 @@ spec:
     prometheus:
       url: http://prometheus.monitoring
       port: 9090
-    # Must be greater than the Prometheus scrape
-    # interval (5s in our setup).
-    metricsRelistInterval: 5s
+    # Must be comfortably larger than the recording-rule
+    # evaluation period (5s, see temporal-server/
+    # prometheus-rules.yaml). The adapter queries
+    # /api/v1/series over a now-<interval> window; if too
+    # narrow, samples are missed and the external metric
+    # flickers, leaving HPA with <unknown>.
+    metricsRelistInterval: 30s
     rules:
       external:
         # Total task queue backlog (global, all
