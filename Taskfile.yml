@@ -39,3 +39,13 @@ tasks:
         --with-source
         --timeout 15m
         --context kind-{{.CLUSTER_NAME}}
+      # `flux reconcile kustomization` only waits for
+      # manifests to apply, not for Helm installs to
+      # finish. Block on every HelmRelease becoming
+      # Ready so the task returns when the cluster is
+      # fully usable end-to-end.
+      - >-
+        kubectl wait helmrelease --all --all-namespaces
+        --for=condition=Ready
+        --timeout=15m
+        --context kind-{{.CLUSTER_NAME}}
