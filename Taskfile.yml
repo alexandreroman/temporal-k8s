@@ -17,7 +17,7 @@ tasks:
     cmds:
       - task: kind:default
       # Wait for Flux CD to finish deploying all
-      # components (infra, temporal, apps).
+      # components (crds, infra, apps).
       - task: flux-reconcile
 
   cluster-delete:
@@ -28,21 +28,14 @@ tasks:
   flux-reconcile:
     desc: Trigger a full Flux CD reconciliation
     cmds:
-      # --with-source refreshes the GitRepository
-      # before reconciling, so no separate source
-      # reconcile step is needed.
-      # --timeout accounts for Helm installs and
-      # health checks that may take several minutes.
-      - >-
-        flux reconcile kustomization infra
-        --with-source
-        --timeout 10m
-        --context kind-{{.CLUSTER_NAME}}
-      - >-
-        flux reconcile kustomization temporal
-        --timeout 10m
-        --context kind-{{.CLUSTER_NAME}}
+      # Flux resolves dependsOn in cascade, so
+      # reconciling apps triggers crds and infra
+      # ahead of it. --with-source refreshes the
+      # GitRepository first; --timeout covers
+      # Helm installs and health checks that may
+      # take several minutes end-to-end.
       - >-
         flux reconcile kustomization apps
-        --timeout 10m
+        --with-source
+        --timeout 15m
         --context kind-{{.CLUSTER_NAME}}

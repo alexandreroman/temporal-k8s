@@ -1,0 +1,11 @@
+# OCI-based Helm repository hosted on Docker Hub
+# for both the controller and CRDs charts.
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: temporal
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 1h
+  url: oci://docker.io/temporalio

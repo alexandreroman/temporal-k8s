@@ -13,6 +13,14 @@ spec:
   # Single instance is sufficient for local
   # development. No HA replicas needed.
   instances: 1
+  # Test/dev only — keep PostgreSQL footprint
+  # small so the pod schedules on a Kind worker.
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
   storage:
     size: 1Gi
   bootstrap:

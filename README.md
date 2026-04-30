@@ -57,6 +57,25 @@ To re-trigger a Flux CD reconciliation manually:
 task flux-reconcile
 ```
 
+### Reconciliation order
+
+Flux CD reconciles three Kustomizations in
+cascade via `dependsOn`:
+
+1. `crds` — installs every CRD bundle so the
+   operator charts in `infra/` can reference
+   them safely.
+2. `infra` — Helm releases and supporting
+   services (cert-manager, CNPG, Traefik,
+   Prometheus stack, Temporal server, Temporal
+   Worker Controller).
+3. `apps` — user-facing workloads.
+
+Running `task flux-reconcile` triggers the
+`apps` Kustomization with `--with-source`;
+Flux resolves the dependency chain and
+reconciles `crds` and `infra` first.
+
 Verify that the cluster is working by hitting
 the `hello` app through Traefik:
 
@@ -141,20 +160,25 @@ task cluster-delete
 
 ```text
 bootstrap/
-  kind/             # Kind cluster + Flux bootstrap
-infra/
-  cert-manager/     # TLS certificate management
-  cloudnative-pg/   # PostgreSQL operator
-  gateway-api/      # Gateway API CRDs
-  grafana/          # Dashboards & visualization
-  opentelemetry-collector/ # OTel Collector
-  prometheus/       # Metrics collection
-  traefik/          # Ingress controller
-temporal/
-  server/           # Temporal server + database
-  worker-controller/ # Temporal Worker Controller
-apps/
-  hello/            # Sample app for smoke testing
+  kind/                       # Kind cluster + Flux bootstrap
+  fluxcd/                     # Flux Kustomizations (crds, infra, apps)
+crds/                         # Layer 1: cluster-scoped CRDs
+  cert-manager/
+  cloudnative-pg/
+  gateway-api/
+  prometheus-operator/
+  temporal-worker-controller/
+infra/                        # Layer 2: operators & supporting services
+  cert-manager/               # TLS certificate management
+  cloudnative-pg/             # PostgreSQL operator
+  kube-prometheus-stack/      # Prometheus + Grafana
+  opentelemetry-collector/    # OTel Collector
+  prometheus-adapter/         # External metrics for HPA
+  temporal-server/            # Temporal server + database
+  temporal-worker-controller/ # Temporal Worker Controller
+  traefik/                    # Ingress controller (Gateway API)
+apps/                         # Layer 3: user-facing applications
+  hello/                      # Sample app for smoke testing
 ```
 
 ## Contributing

@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - cluster-config.yaml
   - gitrepository.yaml
+  - kustomization-crds.yaml
   - kustomization-infra.yaml
-  - kustomization-temporal.yaml
   - kustomization-apps.yaml

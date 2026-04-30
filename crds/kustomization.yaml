@@ -3,9 +3,6 @@ kind: Kustomization
 resources:
   - cert-manager
   - cloudnative-pg
-  - kube-prometheus-stack
-  - opentelemetry-collector
-  - prometheus-adapter
-  - temporal-server
+  - gateway-api
+  - prometheus-operator
   - temporal-worker-controller
-  - traefik

@@ -9,10 +9,21 @@ metadata:
   namespace: monitoring
 spec:
   interval: 1h
+  # Auto-recover from transient install/upgrade
+  # failures. On install, retry up to 3 times before
+  # giving up. On upgrade, retry then rollback to
+  # the last successful release.
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+      remediationStrategy: rollback
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "82.*"
+      version: "82.18.0"
       sourceRef:
         kind: HelmRepository
         name: prometheus-community

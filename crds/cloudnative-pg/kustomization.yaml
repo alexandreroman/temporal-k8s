@@ -1,0 +1,8 @@
+# CloudNativePG CRDs are installed out of band from
+# the operator source tree so they are owned by the
+# dedicated crds layer. The CNPG Helm chart in
+# infra/ runs with crds.create=false.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/cloudnative-pg/cloudnative-pg/config/crd?ref=v1.29.0

@@ -7,10 +7,15 @@ metadata:
   namespace: monitoring
 spec:
   interval: 1h
+  # Wait for Prometheus to be ready: the adapter
+  # queries it at startup to validate rules.
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   chart:
     spec:
       chart: prometheus-adapter
-      version: "5.3.*"
+      version: "5.3.0"
       sourceRef:
         kind: HelmRepository
         name: prometheus-community

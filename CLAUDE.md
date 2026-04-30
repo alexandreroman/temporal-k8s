@@ -34,9 +34,14 @@ task cluster-delete   # tear down the cluster
 Flux CD deploys resources in three layers, each
 depending on the previous one:
 
-- **infra/** — operators and CRDs
-- **temporal/** — Temporal server, PostgreSQL
-  cluster, and worker controller
+- **crds/** — cluster-scoped CRDs (Gateway API,
+  cert-manager, CloudNativePG, prometheus-operator,
+  Temporal Worker Controller)
+- **infra/** — operators and supporting services
+  (cert-manager, CloudNativePG, Traefik,
+  kube-prometheus-stack, OpenTelemetry Collector,
+  prometheus-adapter, Temporal server,
+  Temporal Worker Controller)
 - **apps/** — user-facing applications (`hello`)
 
 The Kind cluster has one control-plane and
@@ -48,11 +53,13 @@ via nodeSelector/tolerations.
 
 - `bootstrap/` — Kind cluster config and Flux CD
   bootstrap manifests
-- `infra/` — layer 1: cert-manager, CloudNativePG,
-  Gateway API, Traefik, kube-prometheus-stack,
-  OpenTelemetry Collector, prometheus-adapter
-- `temporal/` — layer 2: Temporal server and
-  worker controller
+- `crds/` — layer 1: every CRD bundle, installed
+  out of band so HelmRelease re-installs never
+  touch CRD lifecycle
+- `infra/` — layer 2: cert-manager, CloudNativePG,
+  Traefik, kube-prometheus-stack, OpenTelemetry
+  Collector, prometheus-adapter, Temporal server,
+  Temporal Worker Controller
 - `apps/` — layer 3: sample applications
 
 ## Agents

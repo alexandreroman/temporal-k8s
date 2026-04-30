@@ -5,6 +5,22 @@ metadata:
   namespace: temporal
 spec:
   interval: 1h
+  # Wait for the CNPG operator to be ready before
+  # creating the Cluster CR consumed by Temporal.
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: cloudnative-pg
+  # Auto-recover from transient install/upgrade
+  # failures. On install, retry up to 3 times before
+  # giving up. On upgrade, retry then rollback to
+  # the last successful release.
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+      remediationStrategy: rollback
   chart:
     spec:
       chart: temporal
@@ -83,18 +99,51 @@ spec:
         # chart version; see podmonitor.yaml instead.
         serviceMonitor:
           enabled: false
-      # Single replica per service for local dev.
+      # Test/dev cluster only. Resource requests
+      # are pinned low so every Temporal pod fits
+      # on a Kind worker node alongside the
+      # operator stack on a 16 GB host.
       frontend:
         replicaCount: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
       history:
         replicaCount: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
       matching:
         replicaCount: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
       worker:
         replicaCount: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
     web:
       enabled: true
       replicaCount: 1
+      resources:
+        requests:
+          cpu: 25m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
       additionalEnv:
         # Allow CSRF cookie over plain HTTP.
         # Required because the UI is accessed
@@ -103,3 +152,9 @@ spec:
           value: "true"
     admintools:
       enabled: true
+      resources:
+        requests:
+          cpu: 25m
+          memory: 64Mi
+        limits:
+          memory: 128Mi

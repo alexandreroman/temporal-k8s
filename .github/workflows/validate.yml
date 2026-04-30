@@ -1,0 +1,111 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Pinned tool versions kept in one place for easy bumping (Renovate-friendly).
+env:
+  KUSTOMIZE_VERSION: v5.8.1
+  KUBECONFORM_VERSION: v0.7.0
+  KUBERNETES_VERSION: "1.34.0"
+  # Kinds to skip in kubeconform: Flux, CNPG, Gateway API, prometheus-operator,
+  # Temporal Worker Controller CRs, plus CustomResourceDefinition itself
+  # (the default schema mirror cannot validate CRDs in strict mode).
+  KUBECONFORM_SKIP: >-
+    HelmRelease,HelmRepository,Kustomization,GitRepository,OCIRepository,Bucket,
+    Provider,Alert,Receiver,ImageRepository,ImagePolicy,ImageUpdateAutomation,
+    Cluster,ScheduledBackup,Backup,Pooler,Database,Publication,Subscription,
+    ImageCatalog,ClusterImageCatalog,FailoverQuorum,
+    Gateway,HTTPRoute,GRPCRoute,GatewayClass,
+    PodMonitor,PrometheusRule,ServiceMonitor,
+    TemporalWorkerDeployment,
+    CustomResourceDefinition
+
+jobs:
+  kustomize-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install kustomize
+        run: |
+          curl -sLo kustomize.tar.gz \
+            "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+          tar -xzf kustomize.tar.gz
+          sudo mv kustomize /usr/local/bin/
+      - name: kustomize build crds
+        run: kustomize build crds/
+      - name: kustomize build infra
+        run: kustomize build infra/
+      - name: kustomize build apps
+        run: kustomize build apps/
+
+  flux-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: fluxcd/flux2/action@v2.8.6
+      - name: flux build crds
+        run: |
+          flux build kustomization crds \
+            --path ./crds \
+            --kustomization-file ./bootstrap/fluxcd/kustomization-crds.yaml \
+            --dry-run
+      - name: flux build infra
+        run: |
+          flux build kustomization infra \
+            --path ./infra \
+            --kustomization-file ./bootstrap/fluxcd/kustomization-infra.yaml \
+            --dry-run
+      - name: flux build apps
+        run: |
+          flux build kustomization apps \
+            --path ./apps \
+            --kustomization-file ./bootstrap/fluxcd/kustomization-apps.yaml \
+            --dry-run
+
+  kubeconform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install kustomize
+        run: |
+          curl -sLo kustomize.tar.gz \
+            "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz"
+          tar -xzf kustomize.tar.gz
+          sudo mv kustomize /usr/local/bin/
+      - name: Install kubeconform
+        run: |
+          curl -sLo kubeconform.tar.gz \
+            "https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz"
+          tar -xzf kubeconform.tar.gz
+          sudo mv kubeconform /usr/local/bin/
+      - name: Validate every layer
+        run: |
+          set -euo pipefail
+          # Strip whitespace/newlines from the multi-line env value.
+          skip="$(echo "${KUBECONFORM_SKIP}" | tr -d ' \n')"
+          for layer in crds infra apps; do
+            echo "::group::kubeconform ${layer}"
+            kustomize build "${layer}/" \
+              | kubeconform \
+                  -strict \
+                  -kubernetes-version "${KUBERNETES_VERSION}" \
+                  -summary \
+                  -skip "${skip}"
+            echo "::endgroup::"
+          done
+
+  yamllint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install yamllint
+        run: pip install yamllint
+      - name: Run yamllint
+        run: yamllint .

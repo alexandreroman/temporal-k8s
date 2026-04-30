@@ -1,0 +1,30 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": ["dependencies"],
+  "schedule": ["before 6am on monday"],
+  "kubernetes": {
+    "fileMatch": ["(^|/)(apps|crds|infra)/.+\\.ya?ml$"]
+  },
+  "flux": {
+    "fileMatch": ["(^|/)(apps|crds|infra)/.+\\.ya?ml$"]
+  },
+  "helm-values": {
+    "fileMatch": ["(^|/)(apps|crds|infra)/.+\\.ya?ml$"]
+  },
+  "kustomize": {
+    "fileMatch": ["(^|/)(apps|bootstrap|crds|infra)/.+/kustomization\\.ya?ml$"]
+  },
+  "packageRules": [
+    {
+      "description": "Group temporal-worker-controller chart and CRDs",
+      "matchPackageNames": [
+        "temporal-worker-controller",
+        "temporal-worker-controller-crds"
+      ],
+      "groupName": "temporal-worker-controller"
+    }
+  ]
+}

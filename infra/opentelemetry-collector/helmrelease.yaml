@@ -9,10 +9,16 @@ metadata:
   namespace: opentelemetry
 spec:
   interval: 1h
+  # The collector pushes metrics via Prometheus
+  # remote write; ensure Prometheus is ready first
+  # to avoid early scrape/push failures.
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   chart:
     spec:
       chart: opentelemetry-collector
-      version: "0.147.*"
+      version: "0.147.2"
       sourceRef:
         kind: HelmRepository
         name: open-telemetry

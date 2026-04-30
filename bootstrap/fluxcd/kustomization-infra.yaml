@@ -8,6 +8,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+  dependsOn:
+    - name: crds
   sourceRef:
     kind: GitRepository
     name: temporal-k8s
@@ -20,22 +22,3 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-config
-  # Wait for the CloudNativePG operator to be
-  # fully ready (including its webhook) before
-  # marking infra as Ready. Without this,
-  # dependent kustomizations (apps) may fail
-  # on dry-run because the CNPG validating/
-  # mutating webhook is not yet serving.
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: cloudnative-pg
-      namespace: cloudnative-pg
-    # Wait for the Prometheus operator so that
-    # its CRDs (PodMonitor, ServiceMonitor, etc.)
-    # are fully registered before dependent
-    # kustomizations run dry-run validation.
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: prometheus-operator
-      namespace: monitoring

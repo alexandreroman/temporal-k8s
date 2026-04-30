@@ -1,0 +1,17 @@
+extends: default
+
+rules:
+  line-length:
+    max: 120
+    level: error
+  truthy:
+    # "on:" is mandatory in GitHub Actions workflows; exclude
+    # it from the truthy check rather than the workflow file.
+    allowed-values: ["true", "false", "on"]
+    check-keys: true
+  comments:
+    min-spaces-from-content: 1
+  document-start: disable
+  indentation:
+    spaces: 2
+    indent-sequences: true

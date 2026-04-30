@@ -1,0 +1,8 @@
+# cert-manager CRDs are installed out of band so
+# they are owned by the dedicated crds layer and
+# survive HelmRelease re-installs. The cert-manager
+# chart in infra/ runs with crds.enabled=false.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/cert-manager/cert-manager/releases/download/v1.20.2/cert-manager.crds.yaml

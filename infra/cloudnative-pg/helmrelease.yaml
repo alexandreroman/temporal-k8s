@@ -5,15 +5,27 @@ metadata:
   namespace: cloudnative-pg
 spec:
   interval: 1h
+  # Auto-recover from transient install/upgrade
+  # failures. On install, retry up to 3 times before
+  # giving up. On upgrade, retry then rollback to
+  # the last successful release.
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+      remediationStrategy: rollback
   chart:
     spec:
       chart: cloudnative-pg
-      version: "0.28.*"
+      version: "0.28.0"
       sourceRef:
         kind: HelmRepository
         name: cloudnative-pg
   values:
-    # Install CRDs as part of the Helm release
-    # so they are managed by Flux CD lifecycle.
+    # CRDs are owned by the dedicated crds layer
+    # (see crds/cloudnative-pg/) so HelmRelease
+    # re-installs do not touch CRD lifecycle.
     crds:
-      create: true
+      create: false
