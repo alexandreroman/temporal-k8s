@@ -19,7 +19,7 @@ spec:
   upgrade:
     remediation:
       retries: 3
-      remediationStrategy: rollback
+      strategy: rollback
   chart:
     spec:
       chart: temporal-worker-controller-crds
