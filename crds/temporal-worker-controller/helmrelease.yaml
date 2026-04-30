@@ -24,8 +24,8 @@ spec:
     spec:
       chart: temporal-worker-controller-crds
       # Chart version differs from appVersion:
-      # chart 0.24.x = app 1.5.x.
-      version: "0.24.0"
+      # chart 0.25.x = app 1.6.x.
+      version: "0.25.0"
       sourceRef:
         kind: HelmRepository
         name: temporal

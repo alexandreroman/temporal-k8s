@@ -63,7 +63,7 @@ directories:
         # bump it together with `task vendir-sync`.
         git:
           url: https://github.com/kubernetes-sigs/gateway-api
-          ref: v1.2.1
+          ref: v1.5.1
         # Same shape as cnpg: keep only the CRD package
         # and rebase to upstream/ so local kustomization
         # references `upstream` directly.

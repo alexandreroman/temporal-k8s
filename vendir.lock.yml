@@ -16,10 +16,10 @@ directories:
   path: crds/cloudnative-pg/upstream
 - contents:
   - git:
-      commitTitle: 'chore: CHANGELOG for 1.2.1 (#3480)...'
-      sha: a8fe5c8732a37ef471d86afaf570ff8ad0ef0221
+      commitTitle: Patch 1.5.1 release. (#4685)...
+      sha: e7677b70ae75d14a4448fba94870e7deea6cf0ad
       tags:
-      - v1.2.1
+      - conformance/v1.5.1
     path: .
   path: crds/gateway-api/upstream
 kind: LockConfig
