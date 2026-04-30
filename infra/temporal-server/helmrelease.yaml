@@ -10,14 +10,20 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: cloudnative-pg
-  # Auto-recover from transient install/upgrade
-  # failures. On install, retry up to 3 times before
-  # giving up. On upgrade, retry then rollback to
-  # the last successful release.
+  # First install on a fresh Kind cluster pulls
+  # six Temporal images and runs the schema-init
+  # Job in series, which routinely exceeds the
+  # default 5m timeout. 15m gives image pulls and
+  # schema migration enough headroom.
+  # On install/upgrade failure, retry up to 3 times;
+  # upgrade failures roll back to the last
+  # successful release.
   install:
+    timeout: 15m
     remediation:
       retries: 3
   upgrade:
+    timeout: 15m
     remediation:
       retries: 3
       strategy: rollback
