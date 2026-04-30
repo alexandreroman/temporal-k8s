@@ -12,10 +12,16 @@ spec:
   install:
     remediation:
       retries: 3
+    # The Traefik chart ships Gateway API CRDs in its crds/ folder, but those CRDs are owned by the
+    # project's crds/ layer (which vendors a newer version) — Helm must not touch them.
+    crds: Skip
   upgrade:
     remediation:
       retries: 3
       strategy: rollback
+    # The Traefik chart ships Gateway API CRDs in its crds/ folder, but those CRDs are owned by the
+    # project's crds/ layer (which vendors a newer version) — Helm must not touch them.
+    crds: Skip
   chart:
     spec:
       chart: traefik
