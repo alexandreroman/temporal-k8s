@@ -43,13 +43,8 @@ Bootstrap a local cluster with Flux CD:
 task cluster-create
 ```
 
-This will:
-
-1. Verify that required tools are installed
-2. Create a Kind cluster named `temporal`
-3. Wait for the cluster nodes to be ready
-4. Install Flux CD into the cluster
-5. Wait for all components to be deployed
+This brings up the Kind cluster and waits for
+Flux CD to reconcile every component.
 
 To re-trigger a Flux CD reconciliation manually:
 
@@ -71,10 +66,9 @@ cascade via `dependsOn`:
    Worker Controller).
 3. `apps` — user-facing workloads.
 
-Running `task flux-reconcile` triggers the
-`apps` Kustomization with `--with-source`;
-Flux resolves the dependency chain and
-reconciles `crds` and `infra` first.
+`task flux-reconcile` walks the chain
+top-down, reconciling `crds` and `infra`
+before `apps`.
 
 Verify that the cluster is working by hitting
 the `hello` app through Traefik:
@@ -132,9 +126,8 @@ http://prometheus.127-0-0-1.nip.io
 ```
 
 **OpenTelemetry Collector** — receives OTLP
-telemetry and pushes metrics to Prometheus via
-remote write. The HTTP receiver is exposed on
-its standard port through Traefik:
+telemetry and forwards metrics to Prometheus
+via remote write:
 
 ```sh
 curl http://otel.127-0-0-1.nip.io:4318/v1/metrics
