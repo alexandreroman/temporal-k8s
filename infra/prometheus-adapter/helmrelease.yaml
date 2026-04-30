@@ -30,6 +30,11 @@ spec:
     # narrow, samples are missed and the external metric
     # flickers, leaving HPA with <unknown>.
     metricsRelistInterval: 30s
+    # Decoupled from relistInterval: caps the staleness
+    # of values returned to HPA. Must stay >= 2x the
+    # recording-rule period (5s) on Prometheus 3.x.
+    extraArguments:
+      - --metrics-max-age=10s
     rules:
       external:
         # Total task queue backlog (global, all
