@@ -1,14 +1,13 @@
-# CloudNativePG CRDs are installed out of band from
-# the operator source tree so they are owned by the
-# dedicated crds layer. The CNPG Helm chart in
-# infra/ runs with crds.create=false.
-#
-# upstream/ is managed by vendir (do not hand-edit).
-# The source-of-truth lives in vendir.yml at the repo
-# root; refresh with `task vendir-sync`. Vendoring
-# avoids hitting GitHub on every kustomize-controller
-# reconcile and gives offline reproducibility.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - upstream
+  - upstream/postgresql.cnpg.io_backups.yaml
+  - upstream/postgresql.cnpg.io_clusterimagecatalogs.yaml
+  - upstream/postgresql.cnpg.io_clusters.yaml
+  - upstream/postgresql.cnpg.io_databases.yaml
+  - upstream/postgresql.cnpg.io_failoverquorums.yaml
+  - upstream/postgresql.cnpg.io_imagecatalogs.yaml
+  - upstream/postgresql.cnpg.io_poolers.yaml
+  - upstream/postgresql.cnpg.io_publications.yaml
+  - upstream/postgresql.cnpg.io_scheduledbackups.yaml
+  - upstream/postgresql.cnpg.io_subscriptions.yaml

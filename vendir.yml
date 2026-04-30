@@ -36,16 +36,24 @@ directories:
         # (no standalone CRD release artifact), so we
         # vendor the pinned tag directly. Bump the ref
         # here, then run `task vendir-sync`.
+        #
+        # Vendor only the raw CRD YAMLs from
+        # `config/crd/bases/`: upstream's
+        # `kustomization.yaml` ships a wall of
+        # commented-out webhook and cert-manager
+        # CA-injection patch references (plus a
+        # `kustomizeconfig.yaml` that only matters
+        # when those patches are active), none of
+        # which apply to our deployment. We provide
+        # a minimal local kustomization.yaml instead.
         git:
           url: https://github.com/cloudnative-pg/cloudnative-pg
           ref: v1.29.0
-        # Vendor the CRD kustomize package only and
-        # rebase it to the upstream/ root so the local
-        # kustomization.yaml can simply reference
-        # `upstream` without a config/crd/ prefix.
+        # Keep only the raw CRD bases and rebase them
+        # to the upstream/ root.
         includePaths:
-          - config/crd/**
-        newRootPath: config/crd
+          - config/crd/bases/**
+        newRootPath: config/crd/bases
 
   - path: crds/gateway-api/upstream
     contents:
@@ -61,4 +69,9 @@ directories:
         # references `upstream` directly.
         includePaths:
           - config/crd/**
+        # Upstream's kustomization.yaml only references
+        # standard/*.yaml, so experimental/ is never built
+        # and is dead weight on disk.
+        excludePaths:
+          - config/crd/experimental/**
         newRootPath: config/crd

@@ -25,7 +25,7 @@ spec:
         name: cert-manager
   values:
     # CRDs are owned by the dedicated crds layer
-    # (see crds/cert-manager/) so HelmRelease
-    # re-installs do not touch CRD lifecycle.
+    # (see crds/cert-manager/upstream/cert-manager.crds.yaml)
+    # so HelmRelease re-installs do not touch CRD lifecycle.
     crds:
       enabled: false
