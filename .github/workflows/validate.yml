@@ -21,7 +21,7 @@ env:
     ImageCatalog,ClusterImageCatalog,FailoverQuorum,
     Gateway,HTTPRoute,GRPCRoute,GatewayClass,
     PodMonitor,PrometheusRule,ServiceMonitor,
-    TemporalWorkerDeployment,
+    TemporalWorkerDeployment,WorkerDeployment,Connection,WorkerResourceTemplate,
     CustomResourceDefinition
 
 jobs:
