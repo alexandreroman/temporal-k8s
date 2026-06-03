@@ -4,11 +4,15 @@ vars:
   CLUSTER_NAME: temporal
   KIND_CONFIG: kind-config.yaml
   FLUX_VERSION: "2.8.8"
-  # Auto-detect container runtime:
-  # prefer Docker, fall back to Podman.
+  # Auto-detect container runtime: prefer Docker,
+  # fall back to Podman. Podman ships a `docker` CLI
+  # shim, so `docker info` succeeds even on a
+  # Podman-only host; detect that case (docker is
+  # really Podman) and use the podman provider, since
+  # kind's docker-provider inspect breaks on Podman.
   PROVIDER:
     sh: >-
-      if docker info >/dev/null 2>&1; then
+      if docker info >/dev/null 2>&1 && ! docker version 2>/dev/null | grep -qi podman; then
         echo docker;
       elif podman info >/dev/null 2>&1; then
         echo podman;
