@@ -14,6 +14,7 @@
 - [Line length limits](references/feedback_line_length.md) — 80 cols text/Markdown, 120 cols code/YAML
 - [Markdown style conventions](references/feedback_markdown_style.md) — blank lines around headings/lists, fenced blocks with language tag
 - [Use latest stable versions](references/feedback_latest_stable_versions.md) — verify current stable release before adopting any component
+- [CloudNativePG PostgreSQL major version](references/feedback_cnpg_postgres_major.md) — keep PostgreSQL at major 16; never bump the major via the image tag
 - [Comments explain the "why"](references/feedback_explain_why_comments.md) — comment non-obvious choices, never the "what"
 - [CRD vendoring workflow](references/feedback_crd_vendoring.md) — how to bump cert-manager/cnpg/gateway-api CRDs; cnpg needs manual index update
 - [Chart-bundled CRDs vs vendored CRDs](references/feedback_chart_bundled_crds.md) — use crds: Skip on HelmReleases for charts that ship their own CRDs
