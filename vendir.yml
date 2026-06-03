@@ -48,7 +48,7 @@ directories:
         # a minimal local kustomization.yaml instead.
         git:
           url: https://github.com/cloudnative-pg/cloudnative-pg
-          ref: v1.29.0
+          ref: v1.29.1
         # Keep only the raw CRD bases and rebase them
         # to the upstream/ root.
         includePaths:

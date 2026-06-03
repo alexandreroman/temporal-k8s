@@ -8,10 +8,10 @@ directories:
   path: crds/cert-manager/upstream
 - contents:
   - git:
-      commitTitle: Version tag to 1.29.0 (#10400)...
-      sha: 23eae00cd7aad82978397798dd27b600eb25ae3d
+      commitTitle: Version tag to 1.29.1 (#10656)...
+      sha: a4060c152630c9e8958e17d3d23f26b4eb30b69f
       tags:
-      - v1.29.0
+      - v1.29.1
     path: .
   path: crds/cloudnative-pg/upstream
 - contents:
