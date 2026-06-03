@@ -26,8 +26,8 @@ spec:
       chart: prometheus-operator-crds
       # Major version aligned with the operator
       # generation shipped by kube-prometheus-stack
-      # 82.* in infra/.
-      version: "28.0.1"
+      # 86.* in infra/.
+      version: "29.0.0"
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
