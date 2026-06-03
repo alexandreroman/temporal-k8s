@@ -28,7 +28,7 @@ jobs:
   kustomize-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install kustomize
         run: |
           curl -sLo kustomize.tar.gz \
@@ -45,8 +45,8 @@ jobs:
   flux-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: fluxcd/flux2/action@v2.8.6
+      - uses: actions/checkout@v6
+      - uses: fluxcd/flux2/action@v2.8.8
       - name: flux build crds
         run: |
           flux build kustomization crds \
@@ -69,7 +69,7 @@ jobs:
   kubeconform:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Install kustomize
         run: |
           curl -sLo kustomize.tar.gz \
@@ -101,8 +101,8 @@ jobs:
   yamllint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.x"
       - name: Install yamllint
