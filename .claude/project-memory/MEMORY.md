@@ -19,6 +19,7 @@
 - [CRD vendoring workflow](references/feedback_crd_vendoring.md) — how to bump cert-manager/cnpg/gateway-api CRDs; cnpg needs manual index update
 - [Chart-bundled CRDs vs vendored CRDs](references/feedback_chart_bundled_crds.md) — use crds: Skip on HelmReleases for charts that ship their own CRDs
 - [Temporal chart useHelmHooks default](references/feedback_temporal_helm_hooks.md) — leave default true; chart's "false for Flux" hint is outdated
+- [Flux strict envsubst vs OTel ${env:} syntax](references/feedback_flux_strict_envsubst.md) — escape as $${env:...}; Flux 2.9 strict postBuild fails otherwise
 
 ## Project context
 
