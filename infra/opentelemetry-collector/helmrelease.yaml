@@ -37,12 +37,16 @@ spec:
       name: otelcol-contrib
     config:
       receivers:
+        # $$ escapes Flux's envsubst (strict mode) so the
+        # literal ${env:MY_POD_IP} reaches the collector,
+        # which resolves it from the MY_POD_IP env var the
+        # chart injects (pod status.podIP).
         otlp:
           protocols:
             grpc:
-              endpoint: ${env:MY_POD_IP}:4317
+              endpoint: $${env:MY_POD_IP}:4317
             http:
-              endpoint: ${env:MY_POD_IP}:4318
+              endpoint: $${env:MY_POD_IP}:4318
       processors:
         batch:
           # Batch metrics before sending to reduce
@@ -57,7 +61,7 @@ spec:
             http://prometheus.monitoring:9090/api/v1/write
       extensions:
         health_check:
-          endpoint: ${env:MY_POD_IP}:13133
+          endpoint: $${env:MY_POD_IP}:13133
       service:
         extensions:
           - health_check
