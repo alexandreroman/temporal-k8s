@@ -18,7 +18,7 @@ directories:
         # tag here, then run `task vendir-sync`.
         githubRelease:
           slug: cert-manager/cert-manager
-          tag: v1.20.2
+          tag: v1.21.0
           # cert-manager does not ship a checksums file
           # in a vendir-compatible format for this asset.
           disableAutoChecksumValidation: true
@@ -48,7 +48,7 @@ directories:
         # a minimal local kustomization.yaml instead.
         git:
           url: https://github.com/cloudnative-pg/cloudnative-pg
-          ref: v1.29.1
+          ref: v1.30.0
         # Keep only the raw CRD bases and rebase them
         # to the upstream/ root.
         includePaths:
@@ -63,7 +63,7 @@ directories:
         # bump it together with `task vendir-sync`.
         git:
           url: https://github.com/kubernetes-sigs/gateway-api
-          ref: v1.5.1
+          ref: v1.6.0
         # Same shape as cnpg: keep only the CRD package
         # and rebase to upstream/ so local kustomization
         # references `upstream` directly.

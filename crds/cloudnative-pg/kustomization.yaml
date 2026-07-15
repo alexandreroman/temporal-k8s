@@ -4,6 +4,7 @@ resources:
   - upstream/postgresql.cnpg.io_backups.yaml
   - upstream/postgresql.cnpg.io_clusterimagecatalogs.yaml
   - upstream/postgresql.cnpg.io_clusters.yaml
+  - upstream/postgresql.cnpg.io_databaseroles.yaml
   - upstream/postgresql.cnpg.io_databases.yaml
   - upstream/postgresql.cnpg.io_failoverquorums.yaml
   - upstream/postgresql.cnpg.io_imagecatalogs.yaml
