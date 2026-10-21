@@ -20,6 +20,7 @@
 - [Chart-bundled CRDs vs vendored CRDs](references/feedback_chart_bundled_crds.md) — use crds: Skip on HelmReleases for charts that ship their own CRDs
 - [Temporal chart useHelmHooks default](references/feedback_temporal_helm_hooks.md) — leave default true; chart's "false for Flux" hint is outdated
 - [Flux strict envsubst vs OTel ${env:} syntax](references/feedback_flux_strict_envsubst.md) — escape as $${env:...}; Flux 2.9 strict postBuild fails otherwise
+- [E2E validation of a branch on Kind](references/feedback_e2e_branch_validation.md) — push branch, patch GitRepository live only; use nip.io hosts
 
 ## Project context
 

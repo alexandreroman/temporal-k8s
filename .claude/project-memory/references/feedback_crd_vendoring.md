@@ -15,9 +15,9 @@ The `crds/` layer vendors three upstream CRD bundles via vendir (config in `vend
 When bumping any of these versions:
 
 1. Bump the `tag` (or `ref`) in `vendir.yml`.
-2. Run `task vendir-sync`.
+2. Run `task vendir-sync`. The cert-manager `githubRelease` source calls the GitHub API, which rate-limits anonymous calls (HTTP 403); run `VENDIR_GITHUB_API_TOKEN=$(gh auth token) task vendir-sync` when that happens.
 3. **cnpg only**: diff the file list under `crds/cloudnative-pg/upstream/` against the previous set; if upstream added or removed a CRD, update `crds/cloudnative-pg/kustomization.yaml` to match. cert-manager and gateway-api don't need this check — cert-manager is a single file, gateway-api uses upstream's own kustomization.yaml.
-4. Verify: `kustomize build crds/` still emits the expected counts (as of cert-manager v1.21.0 / cnpg v1.30.0 / gateway-api v1.6.0: 27 CRDs + 2 HelmRepositories + 2 HelmReleases). This count grows when upstream adds CRDs — e.g. cnpg v1.30.0 added `databaseroles`, and gateway-api v1.6.0 graduated `backendtlspolicies`, `listenersets`, `tcproutes`, `tlsroutes`, `udproutes` into the standard channel. Run `yamllint .`.
+4. Verify: `kustomize build crds/` still emits the expected counts (as of cert-manager v1.21.2 / cnpg v1.30.1 / gateway-api v1.6.3: 27 CRDs + 2 HelmRepositories + 2 HelmReleases + the Gateway API `safe-upgrades` ValidatingAdmissionPolicy and its Binding). This count grows when upstream adds CRDs — e.g. cnpg v1.30.0 added `databaseroles`, and gateway-api v1.6.0 graduated `backendtlspolicies`, `listenersets`, `tcproutes`, `tlsroutes`, `udproutes` into the standard channel. Run `yamllint .`.
 5. `vendir.lock.yml` is auto-managed — commit it alongside the bump.
 
 Note: prometheus-operator and temporal-worker-controller CRDs are NOT vendored — they come from dedicated Helm charts (`prometheus-operator-crds`, `temporal-worker-controller-crds`) declared as HelmReleases under `crds/`. Bumping those is a chart-version bump, no vendir involvement.

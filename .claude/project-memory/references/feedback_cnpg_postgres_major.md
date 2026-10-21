@@ -23,9 +23,8 @@ rather than upgrade it. PostgreSQL 16 is still
 supported upstream and by CNPG, and this is a
 test/dev cluster, so there is no pressure to move. This
 is the deliberate exception to the project's otherwise
-"use latest stable versions" rule (the chart/operator
-and CRDs were bumped to v1.29.x; only the DB operand
-major was held).
+"use latest stable versions" rule: it covers only the
+DB operand major, not the chart, operator or CRDs.
 
 **How to apply:** during any dependency sweep, bump the
 CNPG operator chart and CRDs as normal, but leave the
