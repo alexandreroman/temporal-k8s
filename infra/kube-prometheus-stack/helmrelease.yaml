@@ -35,6 +35,13 @@ spec:
     # is defined in service-prometheus.yaml.
     fullnameOverride: prometheus
     cleanPrometheusOperatorObjectNames: true
+    # CRDs are owned by the dedicated crds layer
+    # (see crds/prometheus-operator/) so HelmRelease
+    # re-installs do not touch CRD lifecycle. The
+    # chart exposes a values flag for this, so Flux
+    # crds: Skip is not needed.
+    crds:
+      enabled: false
     # Alertmanager is not needed in a test
     # environment.
     alertmanager:
