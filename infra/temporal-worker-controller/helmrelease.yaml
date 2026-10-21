@@ -29,16 +29,16 @@ spec:
     spec:
       chart: temporal-worker-controller
       # Chart version differs from appVersion:
-      # chart 0.27.x = app 1.8.x.
-      version: "0.27.0"
+      # chart 0.32.x = app 1.13.x.
+      version: "0.32.0"
       sourceRef:
         kind: HelmRepository
         name: temporal
   values:
     # Single replica for local dev.
     replicas: 1
-    # cert-manager is already deployed in the
-    # infra layer; no need to install it again.
+    # Request webhook TLS certificates from the
+    # cert-manager deployed in the infra layer
+    # (the chart does not bundle cert-manager).
     certmanager:
-      install: false
       enabled: true

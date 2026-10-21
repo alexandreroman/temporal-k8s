@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "87.16.1"
+      version: "92.11.0"
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -67,6 +67,11 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
+      serviceAccount:
+        # The token Secret only authenticates the
+        # control-plane ServiceMonitors, all disabled
+        # above; skip a needless non-expiring token.
+        createTokenSecret: false
       prometheusSpec:
         # No persistent storage for test/dev.
         storageSpec: {}
