@@ -23,7 +23,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: "87.16.1"
+      version: "92.11.0"
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -35,6 +35,13 @@ spec:
     # is defined in service-prometheus.yaml.
     fullnameOverride: prometheus
     cleanPrometheusOperatorObjectNames: true
+    # CRDs are owned by the dedicated crds layer
+    # (see crds/prometheus-operator/) so HelmRelease
+    # re-installs do not touch CRD lifecycle. The
+    # chart exposes a values flag for this, so Flux
+    # crds: Skip is not needed.
+    crds:
+      enabled: false
     # Alertmanager is not needed in a test
     # environment.
     alertmanager:
@@ -67,6 +74,11 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
+      serviceAccount:
+        # The token Secret only authenticates the
+        # control-plane ServiceMonitors, all disabled
+        # above; skip a needless non-expiring token.
+        createTokenSecret: false
       prometheusSpec:
         # No persistent storage for test/dev.
         storageSpec: {}

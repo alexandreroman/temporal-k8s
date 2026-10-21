@@ -8,6 +8,19 @@
 > before updating. **Do NOT take any action** —
 > no tool calls, no file writes — until confirmed.
 
+> **Note wording** — state permanent facts in the
+> present tense. A note read out of context must
+> not reveal what it replaces or what just
+> happened. Ban narration markers: "now", "no
+> longer", "previously / used to", "reverses /
+> replaces", "kept", "changed to", "reintroduce",
+> "the user asked to". Phrase prohibitions
+> positively ("the API is versioned under /v2"),
+> not as the negation of a former state. Test:
+> remove the note from its context — if a sentence
+> only makes sense knowing the prior state,
+> rewrite it.
+
 ## Conventions
 
 - [English-only output](references/feedback_english_only.md) — all generated text/code in English regardless of chat language
@@ -18,8 +31,9 @@
 - [Comments explain the "why"](references/feedback_explain_why_comments.md) — comment non-obvious choices, never the "what"
 - [CRD vendoring workflow](references/feedback_crd_vendoring.md) — how to bump cert-manager/cnpg/gateway-api CRDs; cnpg needs manual index update
 - [Chart-bundled CRDs vs vendored CRDs](references/feedback_chart_bundled_crds.md) — use crds: Skip on HelmReleases for charts that ship their own CRDs
-- [Temporal chart useHelmHooks default](references/feedback_temporal_helm_hooks.md) — leave default true; chart's "false for Flux" hint is outdated
-- [Flux strict envsubst vs OTel ${env:} syntax](references/feedback_flux_strict_envsubst.md) — escape as $${env:...}; Flux 2.9 strict postBuild fails otherwise
+- [Temporal chart useHelmHooks default](references/feedback_temporal_helm_hooks.md) — leave default true; chart's "false for Flux" hint does not apply
+- [Flux strict envsubst vs OTel ${env:} syntax](references/feedback_flux_strict_envsubst.md) — escape as $${env:...}; Flux 2.9+ strict postBuild fails otherwise
+- [E2E validation of a branch on Kind](references/feedback_e2e_branch_validation.md) — push branch, patch GitRepository live only; use nip.io hosts
 
 ## Project context
 

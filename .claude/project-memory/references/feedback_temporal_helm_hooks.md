@@ -3,7 +3,7 @@ name: Temporal chart useHelmHooks default
 description: >-
   Leave Temporal chart's schema.useHelmHooks at its
   default true; the chart's "set false for Flux"
-  warning is outdated
+  warning does not apply to this project
 type: feedback
 ---
 
@@ -14,13 +14,12 @@ HelmRelease. Leave the chart default (`true`).
 
 **Why:** The official Temporal Helm chart's `values.yaml` carries
 the comment `# Set to false if using Flux, Rancher or Terraform`
-next to `schema.useHelmHooks`. That advice is outdated — verified
-on chart `1.2.0` + Flux `v2.8.6` + helm-controller. With
-`useHelmHooks: true`, the schema migration runs as a Helm
-pre-install hook, so server pods
+next to `schema.useHelmHooks`. That advice does not hold for Flux's
+helm-controller, which runs Helm hooks. With `useHelmHooks: true`,
+the schema migration runs as a Helm pre-install hook, so server pods
 (frontend / history / matching / worker) start *after* the schema
-is ready, with **zero crashloops**. The previous chart
-`1.0.0-rc.3` (no hooks) had ~75s of crashloop noise on every
+is ready, with **zero crashloops**. Without hooks, server pods start
+before the schema exists and crashloop for over a minute on every
 fresh install.
 
 **How to apply:** when bumping the Temporal chart or reading the

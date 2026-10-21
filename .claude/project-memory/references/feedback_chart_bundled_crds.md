@@ -16,12 +16,14 @@ documented "CRDs owned by the dedicated crds/ layer" pattern
 their bundled CRDs.
 
 **Why:** Helm always installs files in `crds/` on `helm install`,
-regardless of values — there is no chart value to disable it.
-Traefik (39.0.8) is the known case: it bundles older Gateway API
-CRDs. Once the project's vendored Gateway API CRDs are at v1.5+,
-the new `safe-upgrades` ValidatingAdmissionPolicy rejects pre-v1.5
-CRDs and the HelmRelease install fails hard. See commit `744c555`
-(`infra/traefik/helmrelease.yaml`) for the canonical fix.
+regardless of values — there is no chart value to disable it. A
+chart's bundled CRDs can clash with the ones the crds layer vendors:
+the Gateway API `safe-upgrades` ValidatingAdmissionPolicy rejects
+Gateway API CRDs older than the vendored release, which fails the
+HelmRelease install outright. Even CRDs the project never uses (such
+as Traefik's `traefik.io` / `hub.traefik.io` set) would put CRD
+lifecycle back in Helm's hands. `infra/traefik/helmrelease.yaml`
+is the reference implementation.
 
 **How to apply:** before adopting any new chart, run
 `helm pull <chart> --untar --untardir /tmp/...` and inspect the
